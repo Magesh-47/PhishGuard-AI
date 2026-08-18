@@ -3,61 +3,49 @@
 {% block title %}Login - PhishGuard{% endblock %}
 
 {% block content %}
-<div class="form-container">
+<div class="form-container grid-surface">
     <div class="form-card animate-slide-up">
         <div class="form-header">
-            <i class="fas fa-shield-alt" style="font-size: 48px; color: var(--primary-color); margin-bottom: 20px;"></i>
-            <h2>Welcome Back!</h2>
-            <p>Login to access your dashboard</p>
+            <i class="fas fa-shield-halved"></i>
+            <h2>Welcome back</h2>
+            <p>Log in to access your scan history and dashboard</p>
         </div>
-        
+
         <form method="POST" action="{{ url_for('login') }}" id="loginForm">
             <div class="form-group">
                 <label for="username">
                     <i class="fas fa-user"></i> Username
                 </label>
-                <input type="text" class="form-control" id="username" name="username" 
+                <input type="text" class="form-control" id="username" name="username"
                        placeholder="Enter your username" required autofocus>
             </div>
-            
+
             <div class="form-group">
                 <label for="password">
                     <i class="fas fa-lock"></i> Password
                 </label>
-                <input type="password" class="form-control" id="password" name="password" 
+                <input type="password" class="form-control" id="password" name="password"
                        placeholder="Enter your password" required>
                 <span class="password-toggle" onclick="togglePassword('password')">
                     <i class="fas fa-eye"></i>
                 </span>
             </div>
-            
+
             <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
-                <label style="display: flex; align-items: center; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-weight: 400;">
                     <input type="checkbox" name="remember" style="width: auto;">
                     <span>Remember me</span>
                 </label>
-                <a href="#" style="color: var(--primary-color); text-decoration: none;">Forgot Password?</a>
+                <a href="#" style="text-decoration: none; font-size: 13.5px;">Forgot password?</a>
             </div>
-            
+
             <button type="submit" class="btn btn-primary btn-block">
-                <i class="fas fa-sign-in-alt"></i> Login
+                <i class="fas fa-arrow-right-to-bracket"></i> Log in
             </button>
         </form>
-        
+
         <div class="form-footer">
-            <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
-        </div>
-        
-        <div style="margin-top: 30px; text-align: center;">
-            <p style="color: #999; margin-bottom: 15px;">Or login with</p>
-            <div style="display: flex; gap: 15px; justify-content: center;">
-                <button class="btn btn-outline" style="padding: 10px 20px;" onclick="socialLogin('google')">
-                    <i class="fab fa-google"></i> Google
-                </button>
-                <button class="btn btn-outline" style="padding: 10px 20px;" onclick="socialLogin('github')">
-                    <i class="fab fa-github"></i> GitHub
-                </button>
-            </div>
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Create one</a></p>
         </div>
     </div>
 </div>
@@ -76,15 +64,6 @@ function togglePassword(fieldId) {
     }
 }
 
-function socialLogin(provider) {
-    showNotification(`Redirecting to ${provider} login...`, 'info');
-    // In production, redirect to OAuth provider
-    setTimeout(() => {
-        window.location.href = `{{ url_for('login') }}?provider=${provider}`;
-    }, 1500);
-}
-
-// Add animation to form
 document.addEventListener('DOMContentLoaded', function() {
     const formGroups = document.querySelectorAll('.form-group');
     formGroups.forEach((group, index) => {
@@ -97,18 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
 .password-toggle {
     position: absolute;
     right: 15px;
-    top: 45px;
+    top: 39px;
     cursor: pointer;
-    color: #999;
-    transition: color 0.3s ease;
+    color: var(--text-faint);
+    transition: color 0.2s ease;
 }
 
 .password-toggle:hover {
-    color: var(--primary-color);
-}
-
-.form-group {
-    position: relative;
+    color: var(--accent);
 }
 
 .form-control {

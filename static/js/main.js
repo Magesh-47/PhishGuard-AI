@@ -135,24 +135,26 @@ function isValidEmail(email) {
 
 function showError(input, message) {
     const formGroup = input.closest('.form-group');
+    if (!formGroup) return;
     let error = formGroup.querySelector('.error-message');
-    
+
     if (!error) {
         error = document.createElement('span');
         error.classList.add('error-message');
         formGroup.appendChild(error);
     }
-    
+
     error.textContent = message;
     input.classList.add('error');
 }
 
 function removeError(input) {
     const formGroup = input.closest('.form-group');
-    const error = formGroup.querySelector('.error-message');
-    
-    if (error) {
-        error.remove();
+    if (formGroup) {
+        const error = formGroup.querySelector('.error-message');
+        if (error) {
+            error.remove();
+        }
     }
     input.classList.remove('error');
 }
@@ -171,7 +173,7 @@ function checkPasswordStrength(password) {
     if (password.match(/[$@#&!]+/)) strength++;
     
     const strengths = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
-    const colors = ['#ff4757', '#ff6b81', '#ffa502', '#26de81', '#20bf6b'];
+    const colors = ['#f0475a', '#f0475a', '#f2a93b', '#21d4a8', '#21d4a8'];
     
     strengthIndicator.textContent = strengths[strength - 1] || 'Very Weak';
     strengthIndicator.style.color = colors[strength - 1] || colors[0];
@@ -194,7 +196,7 @@ function previewURL(url) {
             url = 'https://' + url;
         }
         preview.textContent = url;
-        preview.style.color = '#667eea';
+        preview.style.color = '#21d4a8';
     } else {
         preview.textContent = 'Enter a URL to preview';
         preview.style.color = '#999';

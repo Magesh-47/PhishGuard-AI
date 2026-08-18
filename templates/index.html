@@ -1,23 +1,37 @@
 {% extends "layout.html" %}
 
-{% block title %}Home - PhishGuard{% endblock %}
+{% block title %}PhishGuard — AI Phishing URL Detection{% endblock %}
 
 {% block content %}
-<div class="hero-section">
+<div class="hero-section grid-surface">
     <div class="hero-content">
-        <h1 class="animate-fade-in">Advanced Phishing Detection</h1>
-        <p class="animate-fade-in-up">Protect yourself from malicious websites with our AI-powered URL analysis tool</p>
-        
+        <div class="hero-eyebrow animate-fade-in"><span class="dot"></span> Real-time URL threat analysis</div>
+        <h1 class="animate-fade-in">Stop phishing links<br>before they stop you.</h1>
+        <p class="animate-fade-in-up">PhishGuard inspects any URL in real time — analyzing 30+ structural and behavioral signals with a trained ML model to flag phishing attempts before you click.</p>
+
         <div class="hero-cta animate-scale-in">
             <a href="{{ url_for('check_url') }}" class="btn btn-primary btn-large">
-                <i class="fas fa-search"></i> Check a URL Now
+                <i class="fas fa-magnifying-glass"></i> Scan a URL
             </a>
             <a href="{{ url_for('about') }}" class="btn btn-outline btn-large">
-                <i class="fas fa-info-circle"></i> Learn More
+                <i class="fas fa-book"></i> How it works
             </a>
         </div>
-        
-        <div class="stats-container animate-slide-up">
+
+        <div class="hero-terminal animate-slide-up">
+            <div class="hero-terminal-bar">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="hero-terminal-body">
+                <div class="line"><span class="prompt">$</span> phishguard scan secure-paypa1-verify.com</div>
+                <div class="line">→ checking domain age, SSL, redirects, lexical patterns…</div>
+                <div class="line out-danger">✗ PHISHING — risk score 92/100 (critical)</div>
+                <div class="line" style="margin-top:10px;"><span class="prompt">$</span> phishguard scan github.com</div>
+                <div class="line out-safe">✓ SAFE — risk score 4/100 (low)</div>
+            </div>
+        </div>
+
+        <div class="stats-container">
             <div class="stat-card">
                 <div class="stat-number">99.8%</div>
                 <div class="stat-label">Detection Accuracy</div>
@@ -27,136 +41,156 @@
                 <div class="stat-label">URLs Analyzed</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">Real-time</div>
-                <div class="stat-label">Analysis</div>
+                <div class="stat-number">&lt;1s</div>
+                <div class="stat-label">Avg. Scan Time</div>
             </div>
         </div>
     </div>
 </div>
 
 <section class="features-section">
-    <h2 class="section-title">Why Choose PhishGuard?</h2>
-    
+    <div class="section-header">
+        <div class="section-tag">Capabilities</div>
+        <h2 class="section-title">Why teams trust PhishGuard</h2>
+        <p class="section-sub">Every scan runs the same pipeline our model was trained and validated on — no shortcuts, no black boxes.</p>
+    </div>
+
     <div class="features-grid">
         <div class="feature-card animate-on-scroll">
             <div class="feature-icon">
                 <i class="fas fa-brain"></i>
             </div>
-            <h3>AI-Powered Detection</h3>
-            <p>Advanced machine learning algorithms analyze hundreds of URL features in real-time.</p>
+            <h3>ML-powered detection</h3>
+            <p>A trained classification model scores every URL against patterns learned from thousands of confirmed phishing and legitimate sites.</p>
         </div>
-        
+
         <div class="feature-card animate-on-scroll">
             <div class="feature-icon">
                 <i class="fas fa-bolt"></i>
             </div>
-            <h3>Instant Results</h3>
-            <p>Get immediate analysis with detailed risk assessment and recommendations.</p>
+            <h3>Instant results</h3>
+            <p>Feature extraction and scoring complete in under a second, with a clear risk level and confidence score.</p>
         </div>
-        
+
         <div class="feature-card animate-on-scroll">
             <div class="feature-icon">
                 <i class="fas fa-chart-line"></i>
             </div>
-            <h3>Detailed Analytics</h3>
-            <p>Track your URL checks with comprehensive statistics and history.</p>
+            <h3>Scan history & trends</h3>
+            <p>Every check is logged to your account so you can track exposure over time and export reports.</p>
         </div>
-        
+
         <div class="feature-card animate-on-scroll">
             <div class="feature-icon">
                 <i class="fas fa-lock"></i>
             </div>
-            <h3>Secure & Private</h3>
-            <p>Your data is encrypted and never shared with third parties.</p>
+            <h3>Private by design</h3>
+            <p>Scanned URLs are never shared with third parties. Your history is visible only to you.</p>
         </div>
-        
+
         <div class="feature-card animate-on-scroll">
             <div class="feature-icon">
-                <i class="fas fa-mobile-alt"></i>
+                <i class="fas fa-network-wired"></i>
             </div>
-            <h3>Cross-Platform</h3>
-            <p>Access our service from any device with internet connection.</p>
+            <h3>Structural analysis</h3>
+            <p>We inspect domain age, redirects, SSL, subdomain patterns, and lexical anomalies — not just a blocklist lookup.</p>
         </div>
-        
+
         <div class="feature-card animate-on-scroll">
             <div class="feature-icon">
                 <i class="fas fa-code"></i>
             </div>
-            <h3>API Access</h3>
-            <p>Integrate our phishing detection into your applications.</p>
+            <h3>API access</h3>
+            <p>Integrate phishing detection directly into your own tools with a simple JSON API.</p>
         </div>
     </div>
 </section>
 
 <section class="how-it-works">
-    <h2 class="section-title">How It Works</h2>
-    
-    <div class="steps-container">
-        <div class="step animate-on-scroll">
-            <div class="step-number">1</div>
-            <div class="step-content">
-                <h3>Enter URL</h3>
-                <p>Paste any URL you want to check in our analysis tool</p>
-            </div>
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">Process</div>
+            <h2 class="section-title">How a scan works</h2>
         </div>
-        
-        <div class="step animate-on-scroll">
-            <div class="step-number">2</div>
-            <div class="step-content">
-                <h3>AI Analysis</h3>
-                <p>Our system extracts 30+ features and analyzes them with ML models</p>
+
+        <div class="steps-container">
+            <div class="step animate-on-scroll">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h3>Submit a URL</h3>
+                    <p>Paste any link into the scanner — no account required for a single check.</p>
+                </div>
             </div>
-        </div>
-        
-        <div class="step animate-on-scroll">
-            <div class="step-number">3</div>
-            <div class="step-content">
-                <h3>Get Results</h3>
-                <p>Receive instant classification with risk level and recommendations</p>
+
+            <div class="step animate-on-scroll">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h3>Feature extraction</h3>
+                    <p>We extract 30+ structural, lexical, and domain-based features from the URL.</p>
+                </div>
+            </div>
+
+            <div class="step animate-on-scroll">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h3>Model scoring</h3>
+                    <p>The trained classifier returns a risk score and confidence level in real time.</p>
+                </div>
+            </div>
+
+            <div class="step animate-on-scroll">
+                <div class="step-number">04</div>
+                <div class="step-content">
+                    <h3>Take action</h3>
+                    <p>Get a clear verdict plus specific recommendations for what to do next.</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <section class="testimonials">
-    <h2 class="section-title">What Our Users Say</h2>
-    
+    <div class="section-header">
+        <div class="section-tag">Feedback</div>
+        <h2 class="section-title">Trusted by security-minded teams</h2>
+    </div>
+
     <div class="testimonials-grid">
         <div class="testimonial-card animate-on-scroll">
             <div class="testimonial-content">
                 <i class="fas fa-quote-left"></i>
-                <p>PhishGuard has been invaluable for our organization. It's fast, accurate, and easy to use.</p>
+                <p>PhishGuard is now part of our onboarding checklist — fast enough that engineers actually use it before clicking unknown links.</p>
             </div>
             <div class="testimonial-author">
-                <img src="https://via.placeholder.com/50" alt="User">
+                <div class="avatar-initials">JS</div>
                 <div>
                     <h4>John Smith</h4>
                     <p>IT Security Manager</p>
                 </div>
             </div>
         </div>
-        
+
         <div class="testimonial-card animate-on-scroll">
             <div class="testimonial-content">
                 <i class="fas fa-quote-left"></i>
-                <p>The real-time analysis and detailed reports help us stay protected against emerging threats.</p>
+                <p>The risk breakdown is genuinely useful — it tells us why a URL was flagged, not just a yes/no verdict.</p>
             </div>
             <div class="testimonial-author">
-                <img src="https://via.placeholder.com/50" alt="User">
+                <div class="avatar-initials">SJ</div>
                 <div>
                     <h4>Sarah Johnson</h4>
                     <p>Cybersecurity Analyst</p>
                 </div>
             </div>
         </div>
-        
+
         <div class="testimonial-card animate-on-scroll">
             <div class="testimonial-content">
                 <i class="fas fa-quote-left"></i>
-                <p>Simple interface but powerful behind the scenes. Exactly what we needed.</p>
+                <p>Clean API, sensible response format, no fuss to integrate into our existing alerting pipeline.</p>
             </div>
             <div class="testimonial-author">
-                <img src="https://via.placeholder.com/50" alt="User">
+                <div class="avatar-initials">MC</div>
                 <div>
                     <h4>Mike Chen</h4>
                     <p>Software Developer</p>
@@ -168,10 +202,10 @@
 
 <section class="cta-section">
     <div class="cta-content">
-        <h2>Ready to Stay Protected?</h2>
-        <p>Start checking URLs for phishing threats today - it's free!</p>
+        <h2>Ready to check a link?</h2>
+        <p>It's free, takes under a second, and doesn't require an account.</p>
         <a href="{{ url_for('check_url') }}" class="btn btn-primary btn-large">
-            <i class="fas fa-arrow-right"></i> Get Started Now
+            <i class="fas fa-arrow-right"></i> Scan a URL now
         </a>
     </div>
 </section>
