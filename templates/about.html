@@ -5,27 +5,29 @@
 {% block extra_css %}
 <style>
     .about-hero {
-        padding: 90px 20px 70px;
-        text-align: center;
+        padding: 100px 24px 60px;
     }
 
-    .about-hero .section-tag {
-        justify-content: center;
+    .about-hero-inner {
+        max-width: var(--container-w);
+        margin: 0 auto;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 60px;
     }
 
     .about-hero h1 {
-        font-size: 40px;
+        font-size: 38px;
+        max-width: 640px;
         margin-bottom: 18px;
     }
 
     .about-hero p {
-        font-size: 17px;
-        max-width: 680px;
-        margin: 0 auto;
+        font-size: 16.5px;
+        max-width: 560px;
     }
 
     .mission-section {
-        padding: 20px 20px 90px;
+        padding: 20px 24px 90px;
     }
 
     .mission-content {
@@ -34,95 +36,30 @@
     }
 
     .mission-content > p {
-        max-width: 720px;
+        max-width: 680px;
         line-height: 1.8;
         margin-bottom: 16px;
         font-size: 15px;
     }
 
-    .mission-stats {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-        margin-top: 40px;
-    }
-
-    .mission-stat {
-        text-align: center;
-        padding: 24px;
-    }
-
-    .mission-stat .stat-number {
-        font-size: 30px;
-    }
-
     .features-detailed {
-        padding: 90px 20px;
+        padding: 90px 24px;
         background: var(--bg-alt);
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
     }
 
-    .features-grid-detailed {
-        max-width: var(--container-w);
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-    }
-
     .tech-stack {
-        padding: 90px 20px;
-    }
-
-    .tech-grid {
-        max-width: 1000px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 16px;
-    }
-
-    .tech-item {
-        text-align: center;
-        padding: 26px 16px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-md);
-        transition: var(--transition);
-    }
-
-    .tech-item:hover {
-        border-color: var(--accent);
-        transform: translateY(-3px);
-    }
-
-    .tech-item i {
-        font-size: 30px;
-        margin-bottom: 12px;
-        color: var(--accent);
-        display: block;
-    }
-
-    .tech-item span {
-        font-size: 13px;
-        font-family: var(--font-mono);
-        color: var(--text-dim);
-    }
-
-    @media (max-width: 768px) {
-        .mission-stats {
-            grid-template-columns: repeat(2, 1fr);
-        }
+        padding: 90px 24px;
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="about-hero grid-surface">
-    <div class="container">
-        <div class="section-tag">About PhishGuard</div>
+<section class="about-hero">
+    <div class="about-hero-inner">
+        <div class="section-kicker">About PhishGuard</div>
         <h1>Detection you can inspect, not a black box</h1>
         <p>PhishGuard analyzes URL structure, domain signals, and lexical patterns with a trained machine learning model — then shows you exactly why a link was flagged, not just a verdict.</p>
     </div>
@@ -132,25 +69,25 @@
 <section class="mission-section">
     <div class="container">
         <div class="mission-content">
-            <div class="section-tag">Our approach</div>
+            <div class="section-kicker">Our approach</div>
             <h2 class="section-title">Built for clarity, not just classification</h2>
             <p>Most phishing filters give you a single yes/no signal. PhishGuard is built to show its reasoning: which URL features triggered a flag, how confident the model is, and what to do next. That transparency is what makes it useful for both individuals checking a suspicious link and teams building it into their own workflows.</p>
             <p>The current model is trained on a labeled dataset of phishing and legitimate URLs, extracting over 30 features — length, entropy, subdomain depth, special characters, HTTPS usage, and more — before scoring each link.</p>
 
-            <div class="mission-stats">
-                <div class="panel mission-stat">
+            <div class="stat-strip" style="margin-top: 40px;">
+                <div class="stat-cell">
                     <div class="stat-number">30+</div>
                     <div class="stat-label">Features analyzed</div>
                 </div>
-                <div class="panel mission-stat">
+                <div class="stat-cell">
                     <div class="stat-number">99.8%</div>
                     <div class="stat-label">Model accuracy</div>
                 </div>
-                <div class="panel mission-stat">
+                <div class="stat-cell">
                     <div class="stat-number">&lt;1s</div>
                     <div class="stat-label">Avg. scan time</div>
                 </div>
-                <div class="panel mission-stat">
+                <div class="stat-cell">
                     <div class="stat-number">Free</div>
                     <div class="stat-label">To use</div>
                 </div>
@@ -163,55 +100,45 @@
 <section class="features-detailed">
     <div class="container">
         <div class="section-header">
-            <div class="section-tag">Under the hood</div>
-            <h2 class="section-title">How detection works</h2>
+            <div>
+                <div class="section-kicker">Under the hood</div>
+                <h2 class="section-title">How detection works</h2>
+            </div>
         </div>
 
-        <div class="features-grid-detailed">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-brain"></i>
-                </div>
+        <div class="feature-list">
+            <div class="feature-row">
+                <div class="feature-index">01</div>
                 <h3>Trained classifier</h3>
                 <p>A scikit-learn model trained on labeled phishing and legitimate URL data produces a probability score for each scan.</p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-chart-bar"></i>
-                </div>
+            <div class="feature-row">
+                <div class="feature-index">02</div>
                 <h3>30+ extracted features</h3>
                 <p>URL length, subdomain count, special-character density, HTTPS usage, and other lexical and structural signals.</p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
+            <div class="feature-row">
+                <div class="feature-index">03</div>
                 <h3>Real-time scoring</h3>
                 <p>Feature extraction and model inference both run synchronously, so you get a verdict in under a second.</p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-list-check"></i>
-                </div>
+            <div class="feature-row">
+                <div class="feature-index">04</div>
                 <h3>Explained results</h3>
                 <p>Each result includes the specific suspicious patterns detected and tailored next-step recommendations.</p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-clock-rotate-left"></i>
-                </div>
+            <div class="feature-row">
+                <div class="feature-index">05</div>
                 <h3>Scan history</h3>
                 <p>Signed-in users get a searchable log of past scans with risk trends over time.</p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-lock"></i>
-                </div>
+            <div class="feature-row">
+                <div class="feature-index">06</div>
                 <h3>Privacy first</h3>
                 <p>Your scan history is private to your account and is never sold or shared with third parties.</p>
             </div>
@@ -223,43 +150,21 @@
 <section class="tech-stack">
     <div class="container">
         <div class="section-header">
-            <div class="section-tag">Stack</div>
-            <h2 class="section-title">Built with</h2>
+            <div>
+                <div class="section-kicker">Stack</div>
+                <h2 class="section-title">Built with</h2>
+            </div>
         </div>
 
-        <div class="tech-grid">
-            <div class="tech-item">
-                <i class="fab fa-python"></i>
-                <span>Python</span>
-            </div>
-            <div class="tech-item">
-                <i class="fas fa-diagram-project"></i>
-                <span>scikit-learn</span>
-            </div>
-            <div class="tech-item">
-                <i class="fab fa-flask"></i>
-                <span>Flask</span>
-            </div>
-            <div class="tech-item">
-                <i class="fas fa-table"></i>
-                <span>pandas</span>
-            </div>
-            <div class="tech-item">
-                <i class="fab fa-js"></i>
-                <span>JavaScript</span>
-            </div>
-            <div class="tech-item">
-                <i class="fab fa-html5"></i>
-                <span>HTML5</span>
-            </div>
-            <div class="tech-item">
-                <i class="fab fa-css3-alt"></i>
-                <span>CSS3</span>
-            </div>
-            <div class="tech-item">
-                <i class="fas fa-database"></i>
-                <span>SQLite</span>
-            </div>
+        <div class="stack-strip">
+            <div class="stack-item"><i class="fab fa-python"></i><span>Python</span></div>
+            <div class="stack-item"><i class="fas fa-diagram-project"></i><span>scikit-learn</span></div>
+            <div class="stack-item"><i class="fab fa-flask"></i><span>Flask</span></div>
+            <div class="stack-item"><i class="fas fa-table"></i><span>pandas</span></div>
+            <div class="stack-item"><i class="fab fa-js"></i><span>JavaScript</span></div>
+            <div class="stack-item"><i class="fab fa-html5"></i><span>HTML5</span></div>
+            <div class="stack-item"><i class="fab fa-css3-alt"></i><span>CSS3</span></div>
+            <div class="stack-item"><i class="fas fa-database"></i><span>SQLite</span></div>
         </div>
     </div>
 </section>

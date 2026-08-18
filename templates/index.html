@@ -3,19 +3,21 @@
 {% block title %}PhishGuard — AI Phishing URL Detection{% endblock %}
 
 {% block content %}
-<div class="hero-section grid-surface">
-    <div class="hero-content">
-        <div class="hero-eyebrow animate-fade-in"><span class="dot"></span> Real-time URL threat analysis</div>
-        <h1 class="animate-fade-in">Stop phishing links<br>before they stop you.</h1>
-        <p class="animate-fade-in-up">PhishGuard inspects any URL in real time — analyzing 30+ structural and behavioral signals with a trained ML model to flag phishing attempts before you click.</p>
+<div class="hero-section">
+    <div class="hero-grid">
+        <div class="hero-content">
+            <div class="hero-kicker animate-fade-in"><span class="dot"></span> Real-time URL threat analysis</div>
+            <h1 class="animate-fade-in">Stop phishing links before they stop you.</h1>
+            <p class="animate-fade-in-up">PhishGuard inspects any URL in real time — analyzing 30+ structural and behavioral signals with a trained ML model to flag phishing attempts before you click.</p>
 
-        <div class="hero-cta animate-scale-in">
-            <a href="{{ url_for('check_url') }}" class="btn btn-primary btn-large">
-                <i class="fas fa-magnifying-glass"></i> Scan a URL
-            </a>
-            <a href="{{ url_for('about') }}" class="btn btn-outline btn-large">
-                <i class="fas fa-book"></i> How it works
-            </a>
+            <div class="hero-cta animate-scale-in">
+                <a href="{{ url_for('check_url') }}" class="btn btn-primary btn-large">
+                    <i class="fas fa-magnifying-glass"></i> Scan a URL
+                </a>
+                <a href="{{ url_for('about') }}" class="btn btn-outline btn-large">
+                    How it works
+                </a>
+            </div>
         </div>
 
         <div class="hero-terminal animate-slide-up">
@@ -30,76 +32,66 @@
                 <div class="line out-safe">✓ SAFE — risk score 4/100 (low)</div>
             </div>
         </div>
+    </div>
 
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-number">99.8%</div>
-                <div class="stat-label">Detection Accuracy</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">10K+</div>
-                <div class="stat-label">URLs Analyzed</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">&lt;1s</div>
-                <div class="stat-label">Avg. Scan Time</div>
-            </div>
+    <div class="stat-strip" style="margin-top: 70px;">
+        <div class="stat-cell">
+            <div class="stat-number">99.8%</div>
+            <div class="stat-label">Detection accuracy</div>
+        </div>
+        <div class="stat-cell">
+            <div class="stat-number">10K+</div>
+            <div class="stat-label">URLs analyzed</div>
+        </div>
+        <div class="stat-cell">
+            <div class="stat-number">&lt;1s</div>
+            <div class="stat-label">Avg. scan time</div>
         </div>
     </div>
 </div>
 
 <section class="features-section">
     <div class="section-header">
-        <div class="section-tag">Capabilities</div>
-        <h2 class="section-title">Why teams trust PhishGuard</h2>
+        <div>
+            <div class="section-kicker">Capabilities</div>
+            <h2 class="section-title">Why teams trust PhishGuard</h2>
+        </div>
         <p class="section-sub">Every scan runs the same pipeline our model was trained and validated on — no shortcuts, no black boxes.</p>
     </div>
 
-    <div class="features-grid">
-        <div class="feature-card animate-on-scroll">
-            <div class="feature-icon">
-                <i class="fas fa-brain"></i>
-            </div>
+    <div class="feature-list">
+        <div class="feature-row animate-on-scroll">
+            <div class="feature-index">01</div>
             <h3>ML-powered detection</h3>
             <p>A trained classification model scores every URL against patterns learned from thousands of confirmed phishing and legitimate sites.</p>
         </div>
 
-        <div class="feature-card animate-on-scroll">
-            <div class="feature-icon">
-                <i class="fas fa-bolt"></i>
-            </div>
+        <div class="feature-row animate-on-scroll">
+            <div class="feature-index">02</div>
             <h3>Instant results</h3>
             <p>Feature extraction and scoring complete in under a second, with a clear risk level and confidence score.</p>
         </div>
 
-        <div class="feature-card animate-on-scroll">
-            <div class="feature-icon">
-                <i class="fas fa-chart-line"></i>
-            </div>
+        <div class="feature-row animate-on-scroll">
+            <div class="feature-index">03</div>
             <h3>Scan history & trends</h3>
             <p>Every check is logged to your account so you can track exposure over time and export reports.</p>
         </div>
 
-        <div class="feature-card animate-on-scroll">
-            <div class="feature-icon">
-                <i class="fas fa-lock"></i>
-            </div>
-            <h3>Private by design</h3>
-            <p>Scanned URLs are never shared with third parties. Your history is visible only to you.</p>
-        </div>
-
-        <div class="feature-card animate-on-scroll">
-            <div class="feature-icon">
-                <i class="fas fa-network-wired"></i>
-            </div>
+        <div class="feature-row animate-on-scroll">
+            <div class="feature-index">04</div>
             <h3>Structural analysis</h3>
             <p>We inspect domain age, redirects, SSL, subdomain patterns, and lexical anomalies — not just a blocklist lookup.</p>
         </div>
 
-        <div class="feature-card animate-on-scroll">
-            <div class="feature-icon">
-                <i class="fas fa-code"></i>
-            </div>
+        <div class="feature-row animate-on-scroll">
+            <div class="feature-index">05</div>
+            <h3>Private by design</h3>
+            <p>Scanned URLs are never shared with third parties. Your history is visible only to you.</p>
+        </div>
+
+        <div class="feature-row animate-on-scroll">
+            <div class="feature-index">06</div>
             <h3>API access</h3>
             <p>Integrate phishing detection directly into your own tools with a simple JSON API.</p>
         </div>
@@ -109,8 +101,10 @@
 <section class="how-it-works">
     <div class="container">
         <div class="section-header">
-            <div class="section-tag">Process</div>
-            <h2 class="section-title">How a scan works</h2>
+            <div>
+                <div class="section-kicker">Process</div>
+                <h2 class="section-title">How a scan works</h2>
+            </div>
         </div>
 
         <div class="steps-container">
@@ -150,52 +144,23 @@
 </section>
 
 <section class="testimonials">
-    <div class="section-header">
-        <div class="section-tag">Feedback</div>
-        <h2 class="section-title">Trusted by security-minded teams</h2>
-    </div>
+    <div class="testimonials-wrap">
+        <div class="section-kicker">Feedback</div>
+        <blockquote class="testimonial-featured animate-on-scroll">
+            <p>"PhishGuard is now part of our onboarding checklist — fast enough that engineers actually use it before clicking unknown links."</p>
+            <cite><strong>John Smith</strong> — IT Security Manager</cite>
+        </blockquote>
 
-    <div class="testimonials-grid">
-        <div class="testimonial-card animate-on-scroll">
-            <div class="testimonial-content">
-                <i class="fas fa-quote-left"></i>
-                <p>PhishGuard is now part of our onboarding checklist — fast enough that engineers actually use it before clicking unknown links.</p>
-            </div>
-            <div class="testimonial-author">
-                <div class="avatar-initials">JS</div>
-                <div>
-                    <h4>John Smith</h4>
-                    <p>IT Security Manager</p>
-                </div>
-            </div>
-        </div>
+        <div class="testimonials-row">
+            <blockquote class="testimonial-minor animate-on-scroll">
+                <p>"The risk breakdown is genuinely useful — it tells us why a URL was flagged, not just a yes/no verdict."</p>
+                <cite><strong>Sarah Johnson</strong> — Cybersecurity Analyst</cite>
+            </blockquote>
 
-        <div class="testimonial-card animate-on-scroll">
-            <div class="testimonial-content">
-                <i class="fas fa-quote-left"></i>
-                <p>The risk breakdown is genuinely useful — it tells us why a URL was flagged, not just a yes/no verdict.</p>
-            </div>
-            <div class="testimonial-author">
-                <div class="avatar-initials">SJ</div>
-                <div>
-                    <h4>Sarah Johnson</h4>
-                    <p>Cybersecurity Analyst</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="testimonial-card animate-on-scroll">
-            <div class="testimonial-content">
-                <i class="fas fa-quote-left"></i>
-                <p>Clean API, sensible response format, no fuss to integrate into our existing alerting pipeline.</p>
-            </div>
-            <div class="testimonial-author">
-                <div class="avatar-initials">MC</div>
-                <div>
-                    <h4>Mike Chen</h4>
-                    <p>Software Developer</p>
-                </div>
-            </div>
+            <blockquote class="testimonial-minor animate-on-scroll">
+                <p>"Clean API, sensible response format, no fuss to integrate into our existing alerting pipeline."</p>
+                <cite><strong>Mike Chen</strong> — Software Developer</cite>
+            </blockquote>
         </div>
     </div>
 </section>

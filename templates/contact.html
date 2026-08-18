@@ -25,7 +25,7 @@
         padding: 46px;
     }
 
-    .contact-info .section-tag {
+    .contact-info .section-kicker {
         margin-bottom: 16px;
     }
 
@@ -35,46 +35,13 @@
     }
 
     .contact-info > p {
-        margin-bottom: 36px;
+        margin-bottom: 32px;
         font-size: 14.5px;
         line-height: 1.8;
     }
 
     .info-items {
-        margin-bottom: 36px;
-    }
-
-    .info-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-        margin-bottom: 22px;
-    }
-
-    .info-icon {
-        width: 40px;
-        height: 40px;
-        flex-shrink: 0;
-        background: rgba(33, 212, 168, 0.1);
-        border: 1px solid rgba(33, 212, 168, 0.25);
-        border-radius: var(--radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--accent);
-        font-size: 15px;
-    }
-
-    .info-content h3 {
-        font-size: 15px;
-        color: var(--text);
-        margin-bottom: 3px;
-    }
-
-    .info-content p {
-        margin: 0;
-        font-size: 13.5px;
-        color: var(--text-dim);
+        margin-bottom: 32px;
     }
 
     .social-links-contact {
@@ -122,50 +89,7 @@
 
     .faq-section {
         max-width: 1100px;
-        margin: 70px auto 0;
-    }
-
-    .faq-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 18px;
-    }
-
-    .faq-item {
-        padding: 22px;
-    }
-
-    .faq-question {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        margin-bottom: 12px;
-    }
-
-    .faq-question i {
-        width: 34px;
-        height: 34px;
-        flex-shrink: 0;
-        background: rgba(33, 212, 168, 0.1);
-        border: 1px solid rgba(33, 212, 168, 0.25);
-        border-radius: var(--radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--accent);
-        font-size: 14px;
-    }
-
-    .faq-question h3 {
-        font-size: 15px;
-        color: var(--text);
-    }
-
-    .faq-answer {
-        color: var(--text-dim);
-        font-size: 14px;
-        line-height: 1.7;
-        padding-left: 48px;
+        margin: 80px auto 0;
     }
 
     @media (max-width: 900px) {
@@ -191,36 +115,30 @@
         <div class="contact-container animate-slide-up">
             <!-- Contact Information -->
             <div class="contact-info">
-                <div class="section-tag">Support</div>
+                <div class="section-kicker">Support</div>
                 <h2>Get in touch</h2>
                 <p>Questions about a scan result, a false positive to report, or interested in API access? We read every message.</p>
 
                 <div class="info-items">
-                    <div class="info-item">
-                        <div class="info-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="info-content">
+                    <div class="info-row">
+                        <i class="fas fa-envelope"></i>
+                        <div>
                             <h3>General support</h3>
                             <p>support@phishguard.dev</p>
                         </div>
                     </div>
 
-                    <div class="info-item">
-                        <div class="info-icon">
-                            <i class="fas fa-triangle-exclamation"></i>
-                        </div>
-                        <div class="info-content">
+                    <div class="info-row">
+                        <i class="fas fa-triangle-exclamation"></i>
+                        <div>
                             <h3>Report a phishing site</h3>
                             <p>security@phishguard.dev</p>
                         </div>
                     </div>
 
-                    <div class="info-item">
-                        <div class="info-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="info-content">
+                    <div class="info-row">
+                        <i class="fas fa-clock"></i>
+                        <div>
                             <h3>Response time</h3>
                             <p>Within 24 hours, Mon–Fri</p>
                         </div>
@@ -290,69 +208,41 @@
         <!-- FAQ Section -->
         <div class="faq-section">
             <div class="section-header">
-                <div class="section-tag">FAQ</div>
-                <h2 class="section-title">Frequently asked questions</h2>
+                <div>
+                    <div class="section-kicker">FAQ</div>
+                    <h2 class="section-title">Frequently asked questions</h2>
+                </div>
             </div>
 
-            <div class="faq-grid">
-                <div class="panel faq-item animate-on-scroll">
-                    <div class="faq-question">
-                        <i class="fas fa-question"></i>
-                        <h3>How accurate is PhishGuard?</h3>
-                    </div>
-                    <div class="faq-answer">
-                        Our model achieves 99.8% accuracy on validated test data by analyzing 30+ URL and domain features.
-                    </div>
+            <div class="faq-list">
+                <div class="faq-row">
+                    <h3>How accurate is PhishGuard?</h3>
+                    <p>Our model achieves 99.8% accuracy on validated test data by analyzing 30+ URL and domain features.</p>
                 </div>
 
-                <div class="panel faq-item animate-on-scroll">
-                    <div class="faq-question">
-                        <i class="fas fa-clock"></i>
-                        <h3>How long does a scan take?</h3>
-                    </div>
-                    <div class="faq-answer">
-                        Under a second in most cases — feature extraction and scoring happen synchronously.
-                    </div>
+                <div class="faq-row">
+                    <h3>How long does a scan take?</h3>
+                    <p>Under a second in most cases — feature extraction and scoring happen synchronously.</p>
                 </div>
 
-                <div class="panel faq-item animate-on-scroll">
-                    <div class="faq-question">
-                        <i class="fas fa-lock"></i>
-                        <h3>Is my data secure?</h3>
-                    </div>
-                    <div class="faq-answer">
-                        Yes. Scanned URLs tied to your account are only visible to you and are never shared with third parties.
-                    </div>
+                <div class="faq-row">
+                    <h3>Is my data secure?</h3>
+                    <p>Yes. Scanned URLs tied to your account are only visible to you and are never shared with third parties.</p>
                 </div>
 
-                <div class="panel faq-item animate-on-scroll">
-                    <div class="faq-question">
-                        <i class="fas fa-mobile-screen"></i>
-                        <h3>Does it work on mobile?</h3>
-                    </div>
-                    <div class="faq-answer">
-                        The web app is fully responsive and works well on any modern mobile browser.
-                    </div>
+                <div class="faq-row">
+                    <h3>Does it work on mobile?</h3>
+                    <p>The web app is fully responsive and works well on any modern mobile browser.</p>
                 </div>
 
-                <div class="panel faq-item animate-on-scroll">
-                    <div class="faq-question">
-                        <i class="fas fa-dollar-sign"></i>
-                        <h3>Is PhishGuard free?</h3>
-                    </div>
-                    <div class="faq-answer">
-                        Yes, URL checking is free to use. Reach out if you need higher volume or API access.
-                    </div>
+                <div class="faq-row">
+                    <h3>Is PhishGuard free?</h3>
+                    <p>Yes, URL checking is free to use. Reach out if you need higher volume or API access.</p>
                 </div>
 
-                <div class="panel faq-item animate-on-scroll">
-                    <div class="faq-question">
-                        <i class="fas fa-code"></i>
-                        <h3>Do you offer API access?</h3>
-                    </div>
-                    <div class="faq-answer">
-                        Yes — contact us and we'll help you get set up with a key.
-                    </div>
+                <div class="faq-row">
+                    <h3>Do you offer API access?</h3>
+                    <p>Yes — contact us and we'll help you get set up with a key.</p>
                 </div>
             </div>
         </div>
