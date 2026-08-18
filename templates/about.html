@@ -42,15 +42,32 @@
         font-size: 15px;
     }
 
+    .founder-note {
+        max-width: 680px;
+        padding-left: 22px;
+        border-left: 2px solid var(--accent);
+        margin: 28px 0 32px;
+    }
+
+    .founder-note p {
+        font-size: 16.5px;
+        line-height: 1.8;
+        color: var(--text);
+        margin-bottom: 14px;
+    }
+
+    .founder-note cite {
+        font-style: normal;
+        font-size: 13px;
+        font-family: var(--font-mono);
+        color: var(--text-faint);
+    }
+
     .features-detailed {
         padding: 90px 24px;
         background: var(--bg-alt);
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
-    }
-
-    .tech-stack {
-        padding: 90px 24px;
     }
 </style>
 {% endblock %}
@@ -69,10 +86,14 @@
 <section class="mission-section">
     <div class="container">
         <div class="mission-content">
-            <div class="section-kicker">Our approach</div>
-            <h2 class="section-title">Built for clarity, not just classification</h2>
-            <p>Most phishing filters give you a single yes/no signal. PhishGuard is built to show its reasoning: which URL features triggered a flag, how confident the model is, and what to do next. That transparency is what makes it useful for both individuals checking a suspicious link and teams building it into their own workflows.</p>
-            <p>The current model is trained on a labeled dataset of phishing and legitimate URLs, extracting over 30 features — length, entropy, subdomain depth, special characters, HTTPS usage, and more — before scoring each link.</p>
+            <div class="section-kicker">Why we built this</div>
+            <h2 class="section-title">Blocklists are always one step behind</h2>
+
+            <div class="founder-note">
+                <p>We built PhishGuard after watching one too many phishing pages that were pixel-perfect copies of a real login screen — right down to the padlock icon. Blocklists only catch a domain after someone's already reported it. By then, the damage is done and the attacker has moved to a new one.</p>
+                <p>So instead of asking "has anyone flagged this yet," PhishGuard asks "does this URL behave like the thousands of confirmed phishing links it was trained on" — scoring the link itself, in real time, before it becomes your problem.</p>
+                <cite>— The PhishGuard team</cite>
+            </div>
 
             <div class="stat-strip" style="margin-top: 40px;">
                 <div class="stat-cell">
@@ -110,7 +131,7 @@
             <div class="feature-row">
                 <div class="feature-index">01</div>
                 <h3>Trained classifier</h3>
-                <p>A scikit-learn model trained on labeled phishing and legitimate URL data produces a probability score for each scan.</p>
+                <p>A trained classification model produces a probability score for each scan, built on labeled phishing and legitimate URL data.</p>
             </div>
 
             <div class="feature-row">
@@ -142,29 +163,6 @@
                 <h3>Privacy first</h3>
                 <p>Your scan history is private to your account and is never sold or shared with third parties.</p>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- Technology Stack -->
-<section class="tech-stack">
-    <div class="container">
-        <div class="section-header">
-            <div>
-                <div class="section-kicker">Stack</div>
-                <h2 class="section-title">Built with</h2>
-            </div>
-        </div>
-
-        <div class="stack-strip">
-            <div class="stack-item"><i class="fab fa-python"></i><span>Python</span></div>
-            <div class="stack-item"><i class="fas fa-diagram-project"></i><span>scikit-learn</span></div>
-            <div class="stack-item"><i class="fab fa-flask"></i><span>Flask</span></div>
-            <div class="stack-item"><i class="fas fa-table"></i><span>pandas</span></div>
-            <div class="stack-item"><i class="fab fa-js"></i><span>JavaScript</span></div>
-            <div class="stack-item"><i class="fab fa-html5"></i><span>HTML5</span></div>
-            <div class="stack-item"><i class="fab fa-css3-alt"></i><span>CSS3</span></div>
-            <div class="stack-item"><i class="fas fa-database"></i><span>SQLite</span></div>
         </div>
     </div>
 </section>

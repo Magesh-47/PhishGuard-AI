@@ -549,6 +549,14 @@ code, .text-mono {
     height: 6px;
     border-radius: 50%;
     background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(33, 212, 168, 0.5);
+    animation: pulseDot 2s ease-out infinite;
+}
+
+@keyframes pulseDot {
+    0% { box-shadow: 0 0 0 0 rgba(33, 212, 168, 0.5); }
+    70% { box-shadow: 0 0 0 6px rgba(33, 212, 168, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(33, 212, 168, 0); }
 }
 
 .hero-content h1 {
@@ -565,54 +573,31 @@ code, .text-mono {
     margin-bottom: 34px;
 }
 
-.hero-cta {
-    display: flex;
-    gap: 14px;
-    margin-bottom: 56px;
-}
-
-.hero-terminal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
-    text-align: left;
-    overflow: hidden;
-}
-
-.hero-terminal-bar {
+.hero-examples {
     display: flex;
     align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    margin-bottom: 50px;
+}
+
+.hero-examples span {
+    font-size: 12.5px;
+    color: var(--text-faint);
+}
+
+.sample-tag {
+    display: inline-flex;
+    align-items: center;
     gap: 6px;
-    padding: 10px 14px;
-    background: var(--surface-2);
-    border-bottom: 1px solid var(--border);
-}
-
-.hero-terminal-bar span {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--border-strong);
-}
-
-.hero-terminal-body {
-    padding: 18px 20px;
     font-family: var(--font-mono);
-    font-size: 13.5px;
-    color: var(--text-dim);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 14px;
 }
-
-.hero-terminal-body .prompt {
-    color: var(--accent);
-}
-
-.hero-terminal-body .line {
-    margin-bottom: 6px;
-}
-
-.hero-terminal-body .out-safe { color: var(--accent); }
-.hero-terminal-body .out-danger { color: var(--danger); }
 
 /* Stat strip */
 .stat-strip {
@@ -911,30 +896,6 @@ code, .text-mono {
     margin: 0;
 }
 
-/* ============ Stack strip (plain icon+label row, no cards) ============ */
-.stack-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 36px;
-}
-
-.stack-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--text-dim);
-}
-
-.stack-item i {
-    font-size: 20px;
-    color: var(--accent);
-}
-
-.stack-item span {
-    font-family: var(--font-mono);
-    font-size: 13.5px;
-}
-
 /* ============ Forms ============ */
 .form-container {
     min-height: calc(100vh - 70px);
@@ -1040,6 +1001,295 @@ textarea.form-control {
     color: var(--accent);
     text-decoration: none;
     font-weight: 500;
+}
+
+/* ============ Scanner (shared by hero quick-scan + /check-url) ============ */
+.url-input-group {
+    position: relative;
+    display: flex;
+    gap: 10px;
+}
+
+.url-input {
+    flex: 1;
+    width: 100%;
+    padding: 15px 18px;
+    font-size: 15px;
+    font-family: var(--font-mono);
+    background: var(--bg-alt);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    transition: var(--transition);
+}
+
+.url-input::placeholder {
+    color: var(--text-faint);
+}
+
+.url-input:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(33, 212, 168, 0.15);
+}
+
+.check-btn {
+    padding: 0 26px;
+    background: var(--accent);
+    color: #04120e;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.check-btn:hover {
+    background: #35e6bb;
+}
+
+.check-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.example-urls {
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+}
+
+.example-urls h4 {
+    color: var(--text-faint);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.example-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.example-btn {
+    padding: 8px 16px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.example-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.loader {
+    display: none;
+    text-align: center;
+    padding: 40px 0 10px;
+}
+
+.loader.active {
+    display: block;
+}
+
+.spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--border-strong);
+    border-top: 3px solid var(--accent);
+    border-radius: 50%;
+    margin: 0 auto 16px;
+}
+
+.loader p {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-faint);
+}
+
+/* ============ Scan result card ============ */
+.result-card {
+    margin-top: 28px;
+    padding: 28px;
+    border-radius: var(--radius-md);
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--border-strong);
+    animation: slideUp 0.4s ease;
+}
+
+.result-safe {
+    border-left-color: var(--accent);
+}
+
+.result-phishing {
+    border-left-color: var(--danger);
+}
+
+.result-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 22px;
+    gap: 16px;
+}
+
+.result-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.result-safe .result-icon {
+    background: rgba(33, 212, 168, 0.12);
+    color: var(--accent);
+}
+
+.result-phishing .result-icon {
+    background: rgba(240, 71, 90, 0.12);
+    color: var(--danger);
+}
+
+.result-title h3 {
+    font-size: 19px;
+    color: var(--text);
+    margin-bottom: 3px;
+}
+
+.result-title p {
+    font-size: 13px;
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+    word-break: break-all;
+}
+
+.result-details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px 18px;
+    margin: 20px 0;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: var(--text-dim);
+}
+
+.detail-value {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--text);
+}
+
+.risk-meter {
+    margin: 22px 0;
+}
+
+.risk-meter-label {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.risk-meter-bar {
+    height: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.risk-meter-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.6s ease;
+}
+
+.result-safe .risk-meter-fill { background: var(--accent); }
+.result-phishing .risk-meter-fill { background: var(--danger); }
+
+.analysis-section {
+    margin-top: 24px;
+}
+
+.analysis-title {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.suspicious-list,
+.recommendations-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.suspicious-list li,
+.recommendations-list li {
+    color: var(--text-dim);
+    font-size: 14px;
+    padding: 8px 0 8px 26px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+}
+
+.suspicious-list li:last-child,
+.recommendations-list li:last-child {
+    border-bottom: none;
+}
+
+.suspicious-list li::before {
+    content: '\f071';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    color: var(--warning);
+    font-size: 12px;
+    top: 9px;
+}
+
+.recommendations-list li::before {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 12px;
+    top: 9px;
 }
 
 /* ============ Responsive ============ */
@@ -1153,6 +1403,17 @@ textarea.form-control {
     }
 
     .footer-content { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+    .url-input-group {
+        flex-direction: column;
+    }
+
+    .check-btn {
+        padding: 14px;
+        justify-content: center;
+    }
 }
 
 /* ============ Scroll reveal ============ */
