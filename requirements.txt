@@ -1,0 +1,19 @@
+# Web application
+flask==2.3.3
+flask-login==0.6.2
+flask-sqlalchemy==3.0.5
+werkzeug==2.3.7
+
+# Machine learning
+# scikit-learn is required even though no file imports it directly --
+# joblib needs it to unpickle models/phishing_model.pkl
+scikit-learn==1.3.0
+numpy==1.24.3
+joblib==1.3.1
+
+# URL parsing (pulls in requests + filelock automatically)
+tldextract==3.4.4
+
+# Training only -- used by train_model.py and generate_data.py,
+# not by the running web app. Safe to drop when deploying.
+pandas==2.0.3

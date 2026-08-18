@@ -1,0 +1,656 @@
+{% extends "layout.html" %}
+
+{% block title %}About Us - PhishGuard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+    }
+    
+    .about-hero h1 {
+        font-size: 42px;
+        margin-bottom: 20px;
+        animation: fadeInUp 0.5s ease;
+    }
+    
+    .about-hero p {
+        font-size: 18px;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.9;
+        animation: fadeInUp 0.5s ease 0.2s both;
+    }
+    
+    .mission-section {
+        padding: 80px 20px;
+        background: white;
+    }
+    
+    .mission-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: center;
+    }
+    
+    .mission-text h2 {
+        font-size: 32px;
+        color: var(--dark-color);
+        margin-bottom: 20px;
+    }
+    
+    .mission-text p {
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+    
+    .mission-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        margin-top: 40px;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-number {
+        font-size: 48px;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+    
+    .stat-label {
+        color: #666;
+        font-size: 16px;
+    }
+    
+    .mission-image {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
+    
+    .mission-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    
+    .features-detailed {
+        padding: 80px 20px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+    
+    .features-detailed h2 {
+        text-align: center;
+        font-size: 36px;
+        color: var(--dark-color);
+        margin-bottom: 60px;
+    }
+    
+    .features-grid-detailed {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    
+    .feature-detailed {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+    }
+    
+    .feature-detailed:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .feature-icon-large {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 25px;
+        color: white;
+        font-size: 32px;
+    }
+    
+    .feature-detailed h3 {
+        font-size: 24px;
+        color: var(--dark-color);
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    
+    .feature-detailed p {
+        color: #666;
+        line-height: 1.8;
+        text-align: center;
+    }
+    
+    .tech-stack {
+        padding: 80px 20px;
+        background: white;
+    }
+    
+    .tech-stack h2 {
+        text-align: center;
+        font-size: 36px;
+        color: var(--dark-color);
+        margin-bottom: 60px;
+    }
+    
+    .tech-grid {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 30px;
+        align-items: center;
+    }
+    
+    .tech-item {
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        background: #f8f9fa;
+        transition: var(--transition);
+    }
+    
+    .tech-item:hover {
+        transform: scale(1.1);
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+    }
+    
+    .tech-item i {
+        font-size: 48px;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+    }
+    
+    .tech-item:hover i {
+        color: white;
+    }
+    
+    .tech-item span {
+        font-size: 16px;
+        font-weight: 500;
+    }
+    
+    .team-section {
+        padding: 80px 20px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+    
+    .team-section h2 {
+        text-align: center;
+        font-size: 36px;
+        color: var(--dark-color);
+        margin-bottom: 60px;
+    }
+    
+    .team-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+    }
+    
+    .team-member {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+    }
+    
+    .team-member:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .member-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        overflow: hidden;
+        border: 5px solid linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+    
+    .member-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .team-member h3 {
+        font-size: 22px;
+        color: var(--dark-color);
+        margin-bottom: 5px;
+    }
+    
+    .team-member .position {
+        color: var(--primary-color);
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+    
+    .team-member .bio {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+    
+    .member-social {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .member-social a {
+        width: 40px;
+        height: 40px;
+        background: #f8f9fa;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+        transition: var(--transition);
+    }
+    
+    .member-social a:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-3px);
+    }
+    
+    .timeline-section {
+        padding: 80px 20px;
+        background: white;
+    }
+    
+    .timeline {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+    
+    .timeline-item {
+        position: relative;
+        margin-bottom: 50px;
+    }
+    
+    .timeline-dot {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 20px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        border: 4px solid white;
+        box-shadow: 0 0 0 2px var(--primary-color);
+    }
+    
+    .timeline-content {
+        position: relative;
+        width: 45%;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+    }
+    
+    .timeline-item:nth-child(odd) .timeline-content {
+        left: 55%;
+    }
+    
+    .timeline-item:nth-child(even) .timeline-content {
+        left: 0;
+    }
+    
+    .timeline-content h3 {
+        color: var(--dark-color);
+        margin-bottom: 10px;
+    }
+    
+    .timeline-content .date {
+        color: var(--primary-color);
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    .timeline-content p {
+        color: #666;
+        line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+        .mission-content {
+            grid-template-columns: 1fr;
+        }
+        
+        .timeline::before {
+            left: 20px;
+        }
+        
+        .timeline-dot {
+            left: 20px;
+        }
+        
+        .timeline-content {
+            width: calc(100% - 50px);
+            left: 50px !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="about-hero">
+    <div class="container">
+        <h1>About PhishGuard</h1>
+        <p>We're on a mission to make the internet safer by providing advanced phishing detection technology to everyone, for free.</p>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section class="mission-section">
+    <div class="container">
+        <div class="mission-content">
+            <div class="mission-text">
+                <h2>Our Mission</h2>
+                <p>PhishGuard was founded with a simple yet powerful goal: to protect internet users from the growing threat of phishing attacks. With cybercriminals becoming increasingly sophisticated, we recognized the need for accessible, accurate, and real-time phishing detection tools.</p>
+                <p>Our platform combines cutting-edge machine learning algorithms with decades of cybersecurity expertise to provide instant URL analysis that helps you stay safe online. Whether you're an individual user checking a suspicious link or an organization protecting your employees, PhishGuard is here to help.</p>
+                
+                <div class="mission-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">URLs Analyzed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.8%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">30+</div>
+                        <div class="stat-label">Features Analyzed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Protection</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mission-image">
+                <img src="https://via.placeholder.com/600x400" alt="Cybersecurity Team">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Detailed -->
+<section class="features-detailed">
+    <div class="container">
+        <h2>Advanced Detection Technology</h2>
+        
+        <div class="features-grid-detailed">
+            <div class="feature-detailed">
+                <div class="feature-icon-large">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>Machine Learning</h3>
+                <p>Our ensemble model combines Random Forest, Gradient Boosting, and Neural Networks to achieve superior accuracy in phishing detection.</p>
+            </div>
+            
+            <div class="feature-detailed">
+                <div class="feature-icon-large">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>30+ Features</h3>
+                <p>We analyze over 30 different URL characteristics including lexical patterns, domain information, and behavioral indicators.</p>
+            </div>
+            
+            <div class="feature-detailed">
+                <div class="feature-icon-large">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Real-time Analysis</h3>
+                <p>Get instant results with detailed risk assessment and actionable recommendations to protect yourself from threats.</p>
+            </div>
+            
+            <div class="feature-detailed">
+                <div class="feature-icon-large">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Continuous Learning</h3>
+                <p>Our models are regularly updated with new data to stay ahead of emerging phishing techniques and patterns.</p>
+            </div>
+            
+            <div class="feature-detailed">
+                <div class="feature-icon-large">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3>Global Database</h3>
+                <p>We maintain a comprehensive database of known phishing URLs and patterns from around the world.</p>
+            </div>
+            
+            <div class="feature-detailed">
+                <div class="feature-icon-large">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Privacy First</h3>
+                <p>Your data is encrypted and never shared. We don't store sensitive information or track your browsing history.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technology Stack -->
+<section class="tech-stack">
+    <div class="container">
+        <h2>Technology Stack</h2>
+        
+        <div class="tech-grid">
+            <div class="tech-item">
+                <i class="fab fa-python"></i>
+                <span>Python</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-database"></i>
+                <span>Scikit-learn</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-brain"></i>
+                <span>TensorFlow</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-js"></i>
+                <span>JavaScript</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-html5"></i>
+                <span>HTML5</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-css3-alt"></i>
+                <span>CSS3</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-flask"></i>
+                <span>Flask</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Pandas</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="team-section">
+    <div class="container">
+        <h2>Meet Our Team</h2>
+        
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="https://via.placeholder.com/150" alt="Team Member">
+                </div>
+                <h3>Dr. Sarah Chen</h3>
+                <div class="position">Lead AI Researcher</div>
+                <p class="bio">PhD in Machine Learning with 10+ years experience in cybersecurity. Leads our algorithm development team.</p>
+                <div class="member-social">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="https://via.placeholder.com/150" alt="Team Member">
+                </div>
+                <h3>Michael Rodriguez</h3>
+                <div class="position">Cybersecurity Expert</div>
+                <p class="bio">Former security analyst with expertise in threat intelligence and phishing attack patterns.</p>
+                <div class="member-social">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="https://via.placeholder.com/150" alt="Team Member">
+                </div>
+                <h3>Emily Watson</h3>
+                <div class="position">Full Stack Developer</div>
+                <p class="bio">Passionate about creating intuitive user experiences and robust backend systems.</p>
+                <div class="member-social">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="https://via.placeholder.com/150" alt="Team Member">
+                </div>
+                <h3>David Kim</h3>
+                <div class="position">Data Scientist</div>
+                <p class="bio">Specializes in feature engineering and model optimization for real-time applications.</p>
+                <div class="member-social">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="timeline-section">
+    <div class="container">
+        <h2>Our Journey</h2>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="date">2020</div>
+                    <h3>The Beginning</h3>
+                    <p>PhishGuard was born from a university research project aimed at improving phishing detection accuracy.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="date">2021</div>
+                    <h3>First Prototype</h3>
+                    <p>Developed initial machine learning model achieving 95% accuracy on test datasets.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="date">2022</div>
+                    <h3>Public Launch</h3>
+                    <p>Released PhishGuard to the public, helping thousands of users identify phishing threats.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="date">2023</div>
+                    <h3>Advanced AI Integration</h3>
+                    <p>Implemented ensemble learning with multiple models, achieving 99.8% accuracy.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="date">2024</div>
+                    <h3>Global Expansion</h3>
+                    <p>Launched API access and enterprise solutions, serving clients worldwide.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Join Our Mission</h2>
+            <p>Help us create a safer internet for everyone. Start using PhishGuard today!</p>
+            <a href="{{ url_for('check_url') }}" class="btn btn-primary btn-large">
+                <i class="fas fa-shield-alt"></i> Try It Now
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

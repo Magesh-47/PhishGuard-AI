@@ -1,0 +1,428 @@
+{% extends "layout.html" %}
+
+{% block title %}Check URL - PhishGuard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .check-section {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+    
+    .check-container {
+        max-width: 800px;
+        width: 100%;
+    }
+    
+    .check-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        animation: slideUp 0.5s ease;
+    }
+    
+    .check-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .check-title h2 {
+        font-size: 32px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    
+    .check-title p {
+        color: #666;
+    }
+    
+    .url-input-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    
+    .url-input {
+        width: 100%;
+        padding: 20px 60px 20px 20px;
+        font-size: 18px;
+        border: 2px solid #e0e0e0;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .url-input:focus {
+        border-color: #667eea;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .check-btn {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .check-btn:hover {
+        transform: translateX(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .check-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    .loader {
+        display: none;
+        text-align: center;
+        padding: 40px;
+    }
+    
+    .loader.active {
+        display: block;
+    }
+    
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .result-card {
+        margin-top: 30px;
+        padding: 30px;
+        border-radius: 15px;
+        animation: slideUp 0.5s ease;
+    }
+    
+    .result-safe {
+        background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    }
+    
+    .result-phishing {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .result-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .result-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+    }
+    
+    .result-icon i {
+        font-size: 30px;
+        color: white;
+    }
+    
+    .result-title {
+        flex: 1;
+    }
+    
+    .result-title h3 {
+        color: white;
+        font-size: 24px;
+        margin-bottom: 5px;
+    }
+    
+    .result-title p {
+        color: rgba(255,255,255,0.9);
+    }
+    
+    .result-details {
+        background: rgba(255,255,255,0.2);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+    }
+    
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+    
+    .detail-label {
+        color: white;
+        font-weight: 500;
+    }
+    
+    .detail-value {
+        color: white;
+        font-weight: 600;
+    }
+    
+    .risk-meter {
+        margin: 20px 0;
+    }
+    
+    .risk-meter-label {
+        display: flex;
+        justify-content: space-between;
+        color: white;
+        margin-bottom: 10px;
+    }
+    
+    .risk-meter-bar {
+        height: 20px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .risk-meter-fill {
+        height: 100%;
+        background: white;
+        border-radius: 10px;
+        transition: width 0.5s ease;
+    }
+    
+    .analysis-section {
+        margin-top: 30px;
+    }
+    
+    .analysis-title {
+        color: white;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    
+    .suspicious-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .suspicious-list li {
+        color: white;
+        padding: 10px 0;
+        padding-left: 30px;
+        position: relative;
+    }
+    
+    .suspicious-list li:before {
+        content: "⚠️";
+        position: absolute;
+        left: 0;
+    }
+    
+    .recommendations-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .recommendations-list li {
+        color: white;
+        padding: 10px 0;
+        padding-left: 30px;
+        position: relative;
+    }
+    
+    .recommendations-list li:before {
+        content: "✅";
+        position: absolute;
+        left: 0;
+    }
+    
+    .example-urls {
+        margin-top: 30px;
+        padding: 20px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+    }
+    
+    .example-urls h4 {
+        color: #666;
+        margin-bottom: 15px;
+    }
+    
+    .example-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .example-btn {
+        padding: 10px 20px;
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .example-btn:hover {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="check-section">
+    <div class="check-container">
+        <div class="check-card">
+            <div class="check-title">
+                <h2>Check URL Safety</h2>
+                <p>Enter any URL to analyze its phishing risk</p>
+            </div>
+            
+            <form id="urlCheckForm" method="POST" action="{{ url_for('check_url') }}">
+                <div class="url-input-group">
+                    <input type="url" 
+                           class="url-input" 
+                           name="url" 
+                           id="urlInput"
+                           placeholder="https://example.com" 
+                           required>
+                    <button type="submit" class="check-btn" id="checkBtn">
+                        <i class="fas fa-search"></i> Check
+                    </button>
+                </div>
+            </form>
+            
+            <div class="example-urls">
+                <h4>Try these examples:</h4>
+                <div class="example-buttons">
+                    <button class="example-btn" onclick="setExampleUrl('https://google.com')">
+                        google.com
+                    </button>
+                    <button class="example-btn" onclick="setExampleUrl('https://secure-login-verify.com')">
+                        suspicious-site.com
+                    </button>
+                    <button class="example-btn" onclick="setExampleUrl('http://192.168.1.1/login')">
+                        IP address login
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Loader -->
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                <p>Analyzing URL with AI models...</p>
+            </div>
+            
+            <!-- Results -->
+            {% if result %}
+            <div class="result-card {% if result.is_phishing %}result-phishing{% else %}result-safe{% endif %}" 
+                 id="resultCard">
+                <div class="result-header">
+                    <div class="result-icon">
+                        <i class="fas {% if result.is_phishing %}fa-exclamation-triangle{% else %}fa-check-circle{% endif %}"></i>
+                    </div>
+                    <div class="result-title">
+                        <h3>
+                            {% if result.is_phishing %}
+                                Phishing Detected!
+                            {% else %}
+                                Safe Website
+                            {% endif %}
+                        </h3>
+                        <p>URL: {{ url }}</p>
+                    </div>
+                </div>
+                
+                <div class="result-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Confidence:</span>
+                        <span class="detail-value">{{ "%.2f"|format(result.confidence * 100) }}%</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Risk Level:</span>
+                        <span class="detail-value">{{ result.risk_level }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Risk Score:</span>
+                        <span class="detail-value">{{ "%.1f"|format(result.risk_score) }}/100</span>
+                    </div>
+                </div>
+                
+                <div class="risk-meter">
+                    <div class="risk-meter-label">
+                        <span>Risk Level</span>
+                        <span>{{ result.risk_level }}</span>
+                    </div>
+                    <div class="risk-meter-bar">
+                        <div class="risk-meter-fill" style="width: {{ result.risk_score }}%"></div>
+                    </div>
+                </div>
+                
+                {% if result.analysis %}
+                <div class="analysis-section">
+                    {% if result.analysis.suspicious_patterns %}
+                    <h4 class="analysis-title">Suspicious Patterns Found:</h4>
+                    <ul class="suspicious-list">
+                        {% for pattern in result.analysis.suspicious_patterns %}
+                        <li>{{ pattern }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    
+                    <h4 class="analysis-title">Recommendations:</h4>
+                    <ul class="recommendations-list">
+                        {% for rec in result.analysis.recommendations %}
+                        <li>{{ rec }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function setExampleUrl(url) {
+    document.getElementById('urlInput').value = url;
+    document.getElementById('urlCheckForm').submit();
+}
+
+document.getElementById('urlCheckForm').addEventListener('submit', function(e) {
+    document.getElementById('checkBtn').disabled = true;
+    document.getElementById('loader').classList.add('active');
+    
+    if (document.getElementById('resultCard')) {
+        document.getElementById('resultCard').style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

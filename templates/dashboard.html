@@ -1,0 +1,331 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard - PhishGuard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+        margin-top: -20px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    .stat-icon i {
+        font-size: 30px;
+        color: white;
+    }
+    
+    .stat-value {
+        font-size: 36px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        color: #666;
+        font-size: 16px;
+    }
+    
+    .chart-container {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-top: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        position: relative;
+        height: 360px;
+    }
+
+    .chart-container canvas {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    @media (max-width: 768px) {
+        .chart-container {
+            height: 280px;
+        }
+    }
+    
+    .recent-checks {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-top: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .check-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        transition: background 0.3s ease;
+    }
+    
+    .check-item:hover {
+        background: #f8f9fa;
+    }
+    
+    .check-item:last-child {
+        border-bottom: none;
+    }
+    
+    .check-url {
+        flex: 1;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .risk-badge {
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0 15px;
+    }
+    
+    .risk-critical { background: #ff4757; color: white; }
+    .risk-high { background: #ff6b81; color: white; }
+    .risk-medium { background: #ffa502; color: white; }
+    .risk-low { background: #26de81; color: white; }
+    .risk-error { background: #747d8c; color: white; }
+    
+    .check-time {
+        color: #999;
+        font-size: 14px;
+        min-width: 150px;
+    }
+    
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+    }
+    
+    .action-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .action-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+    
+    .action-btn i {
+        margin-right: 10px;
+        font-size: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="container">
+        <h1 class="animate-fade-in">Welcome back, {{ current_user.username }}!</h1>
+        <p class="animate-fade-in-up">Here's your phishing detection activity overview</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card animate-on-scroll">
+            <div class="stat-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="stat-value">{{ stats.total_checks }}</div>
+            <div class="stat-label">Total URLs Checked</div>
+        </div>
+        
+        <div class="stat-card animate-on-scroll">
+            <div class="stat-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="stat-value">{{ stats.phishing_detected }}</div>
+            <div class="stat-label">Phishing Detected</div>
+        </div>
+        
+        <div class="stat-card animate-on-scroll">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-value">{{ stats.safe_sites }}</div>
+            <div class="stat-label">Safe Sites</div>
+        </div>
+        
+        <div class="stat-card animate-on-scroll">
+            <div class="stat-icon">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <div class="stat-value">{{ stats.phishing_rate }}%</div>
+            <div class="stat-label">Phishing Rate</div>
+        </div>
+    </div>
+    
+    <!-- Chart Section -->
+    <div class="chart-container animate-on-scroll">
+        <h3>Detection Trends (Last 30 Days)</h3>
+        <canvas id="trendChart"></canvas>
+    </div>
+    
+    <!-- Recent Checks -->
+    <div class="recent-checks animate-on-scroll">
+        <h3>Recent URL Checks</h3>
+        
+        {% if recent_checks %}
+            <div class="checks-list">
+                {% for check in recent_checks %}
+                <div class="check-item">
+                    <span class="check-url" title="{{ check.url }}">{{ check.url }}</span>
+                    <span class="risk-badge risk-{{ check.risk_level|lower }}">{{ check.risk_level }}</span>
+                    <span class="check-time">{{ check.checked_at }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <a href="{{ url_for('history') }}" class="btn btn-outline" style="margin-top: 20px;">
+                View All History <i class="fas fa-arrow-right"></i>
+            </a>
+        {% else %}
+            <p style="text-align: center; color: #999; padding: 40px;">
+                No URL checks yet. Start by checking some URLs!
+            </p>
+        {% endif %}
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <a href="{{ url_for('check_url') }}" class="action-btn">
+            <i class="fas fa-plus-circle"></i>
+            New URL Check
+        </a>
+        <a href="{{ url_for('history') }}" class="action-btn">
+            <i class="fas fa-history"></i>
+            View History
+        </a>
+        <a href="#" class="action-btn">
+            <i class="fas fa-download"></i>
+            Export Report
+        </a>
+        <a href="#" class="action-btn">
+            <i class="fas fa-cog"></i>
+            Settings
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Trend Chart
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    
+    // Generate last 30 days labels
+    const labels = [];
+    const today = new Date();
+    for (let i = 29; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+    }
+    
+    // Sample data - In production, fetch from API
+    const phishingData = Array(30).fill(0).map(() => Math.floor(Math.random() * 10));
+    const safeData = Array(30).fill(0).map(() => Math.floor(Math.random() * 20));
+    
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Phishing Detected',
+                    data: phishingData,
+                    borderColor: '#ff4757',
+                    backgroundColor: 'rgba(255, 71, 87, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: 'Safe URLs',
+                    data: safeData,
+                    borderColor: '#26de81',
+                    backgroundColor: 'rgba(38, 222, 129, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        display: true,
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends "layout.html" %}
+
+{% block title %}Home - PhishGuard{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1 class="animate-fade-in">Advanced Phishing Detection</h1>
+        <p class="animate-fade-in-up">Protect yourself from malicious websites with our AI-powered URL analysis tool</p>
+        
+        <div class="hero-cta animate-scale-in">
+            <a href="{{ url_for('check_url') }}" class="btn btn-primary btn-large">
+                <i class="fas fa-search"></i> Check a URL Now
+            </a>
+            <a href="{{ url_for('about') }}" class="btn btn-outline btn-large">
+                <i class="fas fa-info-circle"></i> Learn More
+            </a>
+        </div>
+        
+        <div class="stats-container animate-slide-up">
+            <div class="stat-card">
+                <div class="stat-number">99.8%</div>
+                <div class="stat-label">Detection Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10K+</div>
+                <div class="stat-label">URLs Analyzed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Real-time</div>
+                <div class="stat-label">Analysis</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="features-section">
+    <h2 class="section-title">Why Choose PhishGuard?</h2>
+    
+    <div class="features-grid">
+        <div class="feature-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <h3>AI-Powered Detection</h3>
+            <p>Advanced machine learning algorithms analyze hundreds of URL features in real-time.</p>
+        </div>
+        
+        <div class="feature-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Instant Results</h3>
+            <p>Get immediate analysis with detailed risk assessment and recommendations.</p>
+        </div>
+        
+        <div class="feature-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Detailed Analytics</h3>
+            <p>Track your URL checks with comprehensive statistics and history.</p>
+        </div>
+        
+        <div class="feature-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h3>Secure & Private</h3>
+            <p>Your data is encrypted and never shared with third parties.</p>
+        </div>
+        
+        <div class="feature-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h3>Cross-Platform</h3>
+            <p>Access our service from any device with internet connection.</p>
+        </div>
+        
+        <div class="feature-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fas fa-code"></i>
+            </div>
+            <h3>API Access</h3>
+            <p>Integrate our phishing detection into your applications.</p>
+        </div>
+    </div>
+</section>
+
+<section class="how-it-works">
+    <h2 class="section-title">How It Works</h2>
+    
+    <div class="steps-container">
+        <div class="step animate-on-scroll">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3>Enter URL</h3>
+                <p>Paste any URL you want to check in our analysis tool</p>
+            </div>
+        </div>
+        
+        <div class="step animate-on-scroll">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3>AI Analysis</h3>
+                <p>Our system extracts 30+ features and analyzes them with ML models</p>
+            </div>
+        </div>
+        
+        <div class="step animate-on-scroll">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h3>Get Results</h3>
+                <p>Receive instant classification with risk level and recommendations</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimonials">
+    <h2 class="section-title">What Our Users Say</h2>
+    
+    <div class="testimonials-grid">
+        <div class="testimonial-card animate-on-scroll">
+            <div class="testimonial-content">
+                <i class="fas fa-quote-left"></i>
+                <p>PhishGuard has been invaluable for our organization. It's fast, accurate, and easy to use.</p>
+            </div>
+            <div class="testimonial-author">
+                <img src="https://via.placeholder.com/50" alt="User">
+                <div>
+                    <h4>John Smith</h4>
+                    <p>IT Security Manager</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card animate-on-scroll">
+            <div class="testimonial-content">
+                <i class="fas fa-quote-left"></i>
+                <p>The real-time analysis and detailed reports help us stay protected against emerging threats.</p>
+            </div>
+            <div class="testimonial-author">
+                <img src="https://via.placeholder.com/50" alt="User">
+                <div>
+                    <h4>Sarah Johnson</h4>
+                    <p>Cybersecurity Analyst</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card animate-on-scroll">
+            <div class="testimonial-content">
+                <i class="fas fa-quote-left"></i>
+                <p>Simple interface but powerful behind the scenes. Exactly what we needed.</p>
+            </div>
+            <div class="testimonial-author">
+                <img src="https://via.placeholder.com/50" alt="User">
+                <div>
+                    <h4>Mike Chen</h4>
+                    <p>Software Developer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="cta-content">
+        <h2>Ready to Stay Protected?</h2>
+        <p>Start checking URLs for phishing threats today - it's free!</p>
+        <a href="{{ url_for('check_url') }}" class="btn btn-primary btn-large">
+            <i class="fas fa-arrow-right"></i> Get Started Now
+        </a>
+    </div>
+</section>
+{% endblock %}

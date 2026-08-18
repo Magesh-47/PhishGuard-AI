@@ -1,0 +1,733 @@
+{% extends "layout.html" %}
+
+{% block title %}History - PhishGuard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .history-section {
+        padding: 40px 20px;
+        min-height: 80vh;
+    }
+    
+    .history-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .history-title h1 {
+        font-size: 32px;
+        color: var(--dark-color);
+        margin-bottom: 10px;
+    }
+    
+    .history-title p {
+        color: #666;
+    }
+    
+    .history-actions {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .filter-section {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: var(--shadow);
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    
+    .filter-group {
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .filter-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+        font-size: 14px;
+    }
+    
+    .filter-select, .filter-input {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 14px;
+        transition: var(--transition);
+    }
+    
+    .filter-select:focus, .filter-input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+    }
+    
+    .date-range {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    
+    .date-range input {
+        flex: 1;
+    }
+    
+    .history-table-container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+    
+    .history-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .history-table th {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 15px;
+        text-align: left;
+        font-weight: 500;
+    }
+    
+    .history-table td {
+        padding: 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .history-table tr:hover {
+        background: #f8f9fa;
+    }
+    
+    .url-cell {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .risk-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+    }
+    
+    .risk-critical { background: #ff4757; color: white; }
+    .risk-high { background: #ff6b81; color: white; }
+    .risk-medium { background: #ffa502; color: white; }
+    .risk-low { background: #26de81; color: white; }
+    .risk-error { background: #747d8c; color: white; }
+    
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .action-btn {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: var(--transition);
+        color: white;
+        font-size: 12px;
+    }
+    
+    .action-btn.view {
+        background: var(--primary-color);
+    }
+    
+    .action-btn.delete {
+        background: var(--danger-color);
+    }
+    
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 30px;
+    }
+    
+    .page-item {
+        list-style: none;
+    }
+    
+    .page-link {
+        display: block;
+        padding: 8px 16px;
+        background: white;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+    
+    .page-link:hover,
+    .page-link.active {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
+    }
+    
+    .page-link.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+    
+    .summary-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .summary-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        text-align: center;
+        transition: var(--transition);
+    }
+    
+    .summary-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .summary-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        color: white;
+        font-size: 20px;
+    }
+    
+    .summary-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--dark-color);
+        margin-bottom: 5px;
+    }
+    
+    .summary-label {
+        color: #666;
+        font-size: 14px;
+    }
+    
+    .no-data {
+        text-align: center;
+        padding: 60px;
+        color: #999;
+    }
+    
+    .no-data i {
+        font-size: 64px;
+        margin-bottom: 20px;
+        color: var(--border-color);
+    }
+    
+    .export-menu {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .export-dropdown {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: white;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        min-width: 150px;
+        z-index: 10;
+    }
+    
+    .export-menu:hover .export-dropdown {
+        display: block;
+    }
+    
+    .export-dropdown a {
+        display: block;
+        padding: 10px 15px;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+    
+    .export-dropdown a:hover {
+        background: #f8f9fa;
+        color: var(--primary-color);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="history-section">
+    <div class="container">
+        <div class="history-header">
+            <div class="history-title">
+                <h1><i class="fas fa-history"></i> URL Check History</h1>
+                <p>View and manage your URL check history</p>
+            </div>
+            
+            <div class="history-actions">
+                <div class="export-menu">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <div class="export-dropdown">
+                        <a href="#" onclick="exportHistory('csv')"><i class="fas fa-file-csv"></i> Export as CSV</a>
+                        <a href="#" onclick="exportHistory('json')"><i class="fas fa-file-code"></i> Export as JSON</a>
+                        <a href="#" onclick="exportHistory('pdf')"><i class="fas fa-file-pdf"></i> Export as PDF</a>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="refreshHistory()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+        
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card animate-on-scroll">
+                <div class="summary-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="summary-value">{{ stats.total_checks }}</div>
+                <div class="summary-label">Total Checks</div>
+            </div>
+            
+            <div class="summary-card animate-on-scroll">
+                <div class="summary-icon">
+                    <i class="fas fa-exclamation-triangle" style="background: linear-gradient(135deg, #ff4757, #ff6b81);"></i>
+                </div>
+                <div class="summary-value">{{ stats.phishing_count }}</div>
+                <div class="summary-label">Phishing Detected</div>
+            </div>
+            
+            <div class="summary-card animate-on-scroll">
+                <div class="summary-icon">
+                    <i class="fas fa-check-circle" style="background: linear-gradient(135deg, #26de81, #20bf6b);"></i>
+                </div>
+                <div class="summary-value">{{ stats.safe_count }}</div>
+                <div class="summary-label">Safe URLs</div>
+            </div>
+            
+            <div class="summary-card animate-on-scroll">
+                <div class="summary-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="summary-value">{{ "%.1f"|format(stats.phishing_rate) }}%</div>
+                <div class="summary-label">Phishing Rate</div>
+            </div>
+        </div>
+        
+        <!-- Filter Section -->
+        <div class="filter-section animate-on-scroll">
+            <div class="filter-group">
+                <label><i class="fas fa-filter"></i> Filter by Risk Level</label>
+                <select class="filter-select" id="riskFilter" onchange="applyFilters()">
+                    <option value="all">All Risk Levels</option>
+                    <option value="critical">Critical</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label><i class="fas fa-calendar"></i> Date Range</label>
+                <div class="date-range">
+                    <input type="date" class="filter-input" id="startDate" onchange="applyFilters()">
+                    <span>to</span>
+                    <input type="date" class="filter-input" id="endDate" onchange="applyFilters()">
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <label><i class="fas fa-search"></i> Search</label>
+                <input type="text" class="filter-input" id="searchInput" placeholder="Search URLs..." onkeyup="applyFilters()">
+            </div>
+            
+            <button class="btn btn-outline" onclick="clearFilters()">
+                <i class="fas fa-times"></i> Clear Filters
+            </button>
+        </div>
+        
+        <!-- History Table -->
+        <div class="history-table-container animate-on-scroll">
+            {% if checks.items %}
+            <table class="history-table" id="historyTable">
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th>Risk Level</th>
+                        <th>Confidence</th>
+                        <th>Risk Score</th>
+                        <th>Checked At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for check in checks.items %}
+                    <tr>
+                        <td class="url-cell" title="{{ check.url }}">
+                            <i class="fas fa-link" style="color: var(--primary-color); margin-right: 8px;"></i>
+                            {{ check.url }}
+                        </td>
+                        <td>
+                            <span class="risk-badge risk-{{ check.risk_level|lower }}">
+                                {{ check.risk_level }}
+                            </span>
+                        </td>
+                        <td>{{ check.confidence }}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <span>{{ "%.1f"|format(check.risk_score) }}%</span>
+                                <div style="width: 50px; height: 5px; background: #f0f0f0; border-radius: 5px;">
+                                    <div style="width: {{ check.risk_score }}%; height: 100%; background: {% if check.risk_score < 30 %} #26de81 {% elif check.risk_score < 60 %} #ffa502 {% elif check.risk_score < 80 %} #ff6b81 {% else %} #ff4757 {% endif %}; border-radius: 5px;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <i class="far fa-clock" style="color: #999; margin-right: 5px;"></i>
+                            {{ check.checked_at }}
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view" onclick="viewDetails({{ check.id }})" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteRecord({{ check.id }})" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <button class="action-btn" style="background: var(--warning-color);" onclick="recheckURL('{{ check.url }}')" title="Recheck">
+                                    <i class="fas fa-redo-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-data">
+                <i class="fas fa-history"></i>
+                <h3>No History Found</h3>
+                <p>You haven't checked any URLs yet. Start by checking some URLs!</p>
+                <a href="{{ url_for('check_url') }}" class="btn btn-primary" style="margin-top: 20px;">
+                    <i class="fas fa-search"></i> Check URL Now
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if checks.pages > 1 %}
+        <nav aria-label="History pagination">
+            <ul class="pagination">
+                <li class="page-item {% if not checks.has_prev %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('history', page=checks.prev_num) }}" {% if not checks.has_prev %}tabindex="-1"{% endif %}>
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                
+                {% for page_num in checks.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                    {% if page_num %}
+                        <li class="page-item">
+                            <a class="page-link {% if page_num == checks.page %}active{% endif %}" href="{{ url_for('history', page=page_num) }}">
+                                {{ page_num }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                
+                <li class="page-item {% if not checks.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('history', page=checks.next_num) }}" {% if not checks.has_next %}tabindex="-1"{% endif %}>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div id="detailsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2><i class="fas fa-info-circle"></i> URL Check Details</h2>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+<script>
+let currentData = [];
+
+function applyFilters() {
+    const riskFilter = document.getElementById('riskFilter').value.toLowerCase();
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    
+    const rows = document.querySelectorAll('#historyTable tbody tr');
+    
+    rows.forEach(row => {
+        let show = true;
+        
+        // Risk level filter
+        if (riskFilter !== 'all') {
+            const riskCell = row.querySelector('.risk-badge');
+            if (riskCell && !riskCell.textContent.toLowerCase().includes(riskFilter)) {
+                show = false;
+            }
+        }
+        
+        // Date filter
+        if (show && (startDate || endDate)) {
+            const dateCell = row.querySelector('td:nth-child(5)').textContent.trim();
+            const checkDate = new Date(dateCell).toISOString().split('T')[0];
+            
+            if (startDate && checkDate < startDate) show = false;
+            if (endDate && checkDate > endDate) show = false;
+        }
+        
+        // Search filter
+        if (show && searchTerm) {
+            const urlCell = row.querySelector('.url-cell').textContent.toLowerCase();
+            if (!urlCell.includes(searchTerm)) {
+                show = false;
+            }
+        }
+        
+        row.style.display = show ? '' : 'none';
+    });
+}
+
+function clearFilters() {
+    document.getElementById('riskFilter').value = 'all';
+    document.getElementById('startDate').value = '';
+    document.getElementById('endDate').value = '';
+    document.getElementById('searchInput').value = '';
+    applyFilters();
+}
+
+function exportHistory(format) {
+    const rows = [];
+    const headers = ['URL', 'Risk Level', 'Confidence', 'Risk Score', 'Checked At'];
+    
+    document.querySelectorAll('#historyTable tbody tr').forEach(row => {
+        if (row.style.display !== 'none') {
+            const rowData = {
+                url: row.querySelector('.url-cell').textContent.trim(),
+                risk_level: row.querySelector('.risk-badge').textContent.trim(),
+                confidence: row.querySelector('td:nth-child(3)').textContent.trim(),
+                risk_score: row.querySelector('td:nth-child(4)').textContent.trim(),
+                checked_at: row.querySelector('td:nth-child(5)').textContent.trim()
+            };
+            rows.push(rowData);
+        }
+    });
+    
+    if (format === 'csv') {
+        let csv = headers.join(',') + '\n';
+        rows.forEach(row => {
+            csv += Object.values(row).map(val => `"${val}"`).join(',') + '\n';
+        });
+        
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'phishing_history.csv';
+        a.click();
+    } else if (format === 'json') {
+        const blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'phishing_history.json';
+        a.click();
+    } else if (format === 'pdf') {
+        showNotification('PDF export coming soon!', 'info');
+    }
+}
+
+function refreshHistory() {
+    showLoading(true);
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
+}
+
+function viewDetails(checkId) {
+    // In production, fetch details from API
+    const modal = document.getElementById('detailsModal');
+    const modalContent = document.getElementById('modalContent');
+    
+    // Find the row data
+    const row = event.target.closest('tr');
+    if (row) {
+        const url = row.querySelector('.url-cell').textContent.trim();
+        const riskLevel = row.querySelector('.risk-badge').textContent.trim();
+        const confidence = row.querySelector('td:nth-child(3)').textContent.trim();
+        const riskScore = row.querySelector('td:nth-child(4)').textContent.trim();
+        const checkedAt = row.querySelector('td:nth-child(5)').textContent.trim();
+        
+        modalContent.innerHTML = `
+            <div class="detail-item">
+                <strong>URL:</strong> <a href="${url}" target="_blank">${url}</a>
+            </div>
+            <div class="detail-item">
+                <strong>Risk Level:</strong> <span class="risk-badge risk-${riskLevel.toLowerCase()}">${riskLevel}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Confidence:</strong> ${confidence}
+            </div>
+            <div class="detail-item">
+                <strong>Risk Score:</strong> ${riskScore}
+            </div>
+            <div class="detail-item">
+                <strong>Checked At:</strong> ${checkedAt}
+            </div>
+            <div class="detail-item">
+                <strong>Analysis:</strong>
+                <ul>
+                    <li>URL Length: ${url.length} characters</li>
+                    <li>Contains HTTPS: ${url.startsWith('https') ? 'Yes' : 'No'}</li>
+                    <li>Contains IP: ${/\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/.test(url) ? 'Yes' : 'No'}</li>
+                </ul>
+            </div>
+        `;
+    }
+    
+    modal.style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('detailsModal').style.display = 'none';
+}
+
+function deleteRecord(checkId) {
+    if (confirm('Are you sure you want to delete this record?')) {
+        showNotification('Record deleted successfully', 'success');
+        // In production, send DELETE request to API
+        event.target.closest('tr').remove();
+    }
+}
+
+function recheckURL(url) {
+    window.location.href = "{{ url_for('check_url') }}?url=" + encodeURIComponent(url);
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('detailsModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Load initial data
+document.addEventListener('DOMContentLoaded', function() {
+    // Set default date range (last 30 days)
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+    
+    document.getElementById('endDate').value = today.toISOString().split('T')[0];
+    document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+});
+</script>
+
+<style>
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation: slideDown 0.3s ease;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: var(--danger-color);
+}
+
+.detail-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.detail-item li {
+    margin-bottom: 5px;
+    color: #666;
+}
+</style>
+{% endblock %}
