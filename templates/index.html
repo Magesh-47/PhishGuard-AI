@@ -1,242 +1,180 @@
 {% extends "layout.html" %}
 
-{% block title %}PhishGuard — Real-time phishing URL scanner{% endblock %}
+{% block title %}PhishGuard — Detection you can inspect, not a black box{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        padding: 100px 24px 60px;
+    }
+
+    .about-hero-inner {
+        max-width: var(--container-w);
+        margin: 0 auto;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 60px;
+    }
+
+    .about-hero h1 {
+        font-size: 38px;
+        max-width: 640px;
+        margin-bottom: 18px;
+    }
+
+    .about-hero p {
+        font-size: 16.5px;
+        max-width: 560px;
+    }
+
+    .mission-section {
+        padding: 20px 24px 90px;
+    }
+
+    .mission-content {
+        max-width: var(--container-w);
+        margin: 0 auto;
+    }
+
+    .mission-content > p {
+        max-width: 680px;
+        line-height: 1.8;
+        margin-bottom: 16px;
+        font-size: 15px;
+    }
+
+    .founder-note {
+        max-width: 680px;
+        padding-left: 22px;
+        border-left: 2px solid var(--accent);
+        margin: 28px 0 32px;
+    }
+
+    .founder-note p {
+        font-size: 16.5px;
+        line-height: 1.8;
+        color: var(--text);
+        margin-bottom: 14px;
+    }
+
+    .founder-note cite {
+        font-style: normal;
+        font-size: 13px;
+        font-family: var(--font-mono);
+        color: var(--text-faint);
+    }
+
+    .features-detailed {
+        padding: 90px 24px;
+        background: var(--bg-alt);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="hero-section">
-    <div class="hero-grid">
-        <div class="hero-content">
-            <div class="hero-kicker animate-fade-in"><span class="dot"></span> Detection engine online</div>
-            <h1 class="animate-fade-in">That link looks fine. That's exactly the problem.</h1>
-            <p class="animate-fade-in-up">Modern phishing pages are pixel-perfect copies of the real thing. PhishGuard checks the link itself — 30+ signals, scored in real time — so you don't have to guess.</p>
+<!-- Hero Section -->
+<section class="about-hero">
+    <div class="about-hero-inner">
+        <div class="section-kicker">About PhishGuard</div>
+        <h1>Detection you can inspect, not a black box</h1>
+        <p>PhishGuard analyzes URL structure, domain signals, and lexical patterns with a trained machine learning model — then shows you exactly why a link was flagged, not just a verdict.</p>
+    </div>
+</section>
 
-            <form id="urlCheckForm" method="POST" action="{{ url_for('check_url') }}" class="animate-scale-in">
-                <div class="url-input-group">
-                    <input type="text"
-                           class="url-input"
-                           name="url"
-                           id="urlInput"
-                           placeholder="Paste a link to check it"
-                           required>
-                    <button type="submit" class="check-btn" id="checkBtn">
-                        <i class="fas fa-magnifying-glass"></i> Scan
-                    </button>
-                </div>
-            </form>
+<!-- Mission Section -->
+<section class="mission-section">
+    <div class="container">
+        <div class="mission-content">
+            <div class="section-kicker">Why we built this</div>
+            <h2 class="section-title">Blocklists are always one step behind</h2>
 
-            <div class="hero-examples">
-                <span>Try:</span>
-                <button type="button" class="example-btn" onclick="setExampleUrl('https://google.com')">google.com</button>
-                <button type="button" class="example-btn" onclick="setExampleUrl('https://secure-login-verify.com')">secure-login-verify.com</button>
-                <button type="button" class="example-btn" onclick="setExampleUrl('http://192.168.1.1/login')">raw IP login page</button>
+            <div class="founder-note">
+                <p>We built PhishGuard after watching one too many phishing pages that were pixel-perfect copies of a real login screen — right down to the padlock icon. Blocklists only catch a domain after someone's already reported it. By then, the damage is done and the attacker has moved to a new one.</p>
+                <p>So instead of asking "has anyone flagged this yet," PhishGuard asks "does this URL behave like the thousands of confirmed phishing links it was trained on" — scoring the link itself, in real time, before it becomes your problem.</p>
+                <cite>— The PhishGuard team</cite>
             </div>
 
-            <div class="loader" id="loader">
-                <div class="spinner spin"></div>
-                <p>Analyzing URL with ML model…</p>
-            </div>
-        </div>
-
-        <div class="hero-preview animate-slide-up">
-            <div class="sample-tag"><i class="fas fa-eye"></i> Example scan output</div>
-            <div class="result-card result-phishing">
-                <div class="result-header">
-                    <div class="result-icon">
-                        <i class="fas fa-triangle-exclamation"></i>
-                    </div>
-                    <div class="result-title">
-                        <h3>Phishing detected</h3>
-                        <p>paypal-secure-login-verify.tk/account</p>
-                    </div>
+            <div class="stat-strip" style="margin-top: 40px;">
+                <div class="stat-cell">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Features analyzed</div>
                 </div>
-
-                <div class="result-details">
-                    <div class="detail-item">
-                        <span class="detail-label">Confidence</span>
-                        <span class="detail-value">91.40%</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Risk Level</span>
-                        <span class="detail-value badge risk-high">HIGH</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Risk Score</span>
-                        <span class="detail-value">87.0/100</span>
-                    </div>
+                <div class="stat-cell">
+                    <div class="stat-number">99.8%</div>
+                    <div class="stat-label">Model accuracy</div>
                 </div>
-
-                <div class="risk-meter">
-                    <div class="risk-meter-label">
-                        <span>Risk score</span>
-                        <span>87/100</span>
-                    </div>
-                    <div class="risk-meter-bar">
-                        <div class="risk-meter-fill" style="width: 87%"></div>
-                    </div>
+                <div class="stat-cell">
+                    <div class="stat-number">&lt;1s</div>
+                    <div class="stat-label">Avg. scan time</div>
                 </div>
-
-                <div class="analysis-section">
-                    <h4 class="analysis-title">Suspicious patterns found</h4>
-                    <ul class="suspicious-list">
-                        <li>Brand name used outside its official domain</li>
-                        <li>Domain registered on a high-abuse free TLD</li>
-                        <li>No valid SSL certificate detected</li>
-                    </ul>
+                <div class="stat-cell">
+                    <div class="stat-number">Free</div>
+                    <div class="stat-label">To use</div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="stat-strip" style="margin-top: 70px;">
-        <div class="stat-cell">
-            <div class="stat-number">99.8%</div>
-            <div class="stat-label">Detection accuracy</div>
-        </div>
-        <div class="stat-cell">
-            <div class="stat-number">10K+</div>
-            <div class="stat-label">URLs analyzed</div>
-        </div>
-        <div class="stat-cell">
-            <div class="stat-number">&lt;1s</div>
-            <div class="stat-label">Avg. scan time</div>
-        </div>
-    </div>
-</div>
-
-<section class="features-section">
-    <div class="section-header">
-        <div>
-            <div class="section-kicker">Capabilities</div>
-            <h2 class="section-title">Why teams trust PhishGuard</h2>
-        </div>
-        <p class="section-sub">Every scan runs the same pipeline our model was trained and validated on — no shortcuts, no black boxes.</p>
-    </div>
-
-    <div class="feature-list">
-        <div class="feature-row animate-on-scroll">
-            <div class="feature-index">01</div>
-            <h3>ML-powered detection</h3>
-            <p>A trained classification model scores every URL against patterns learned from thousands of confirmed phishing and legitimate sites.</p>
-        </div>
-
-        <div class="feature-row animate-on-scroll">
-            <div class="feature-index">02</div>
-            <h3>Instant results</h3>
-            <p>Feature extraction and scoring complete in under a second, with a clear risk level and confidence score.</p>
-        </div>
-
-        <div class="feature-row animate-on-scroll">
-            <div class="feature-index">03</div>
-            <h3>Scan history & trends</h3>
-            <p>Every check is logged to your account so you can track exposure over time and export reports.</p>
-        </div>
-
-        <div class="feature-row animate-on-scroll">
-            <div class="feature-index">04</div>
-            <h3>Structural analysis</h3>
-            <p>We inspect domain age, redirects, SSL, subdomain patterns, and lexical anomalies — not just a blocklist lookup.</p>
-        </div>
-
-        <div class="feature-row animate-on-scroll">
-            <div class="feature-index">05</div>
-            <h3>Private by design</h3>
-            <p>Scanned URLs are never shared with third parties. Your history is visible only to you.</p>
-        </div>
-
-        <div class="feature-row animate-on-scroll">
-            <div class="feature-index">06</div>
-            <h3>API access</h3>
-            <p>Integrate phishing detection directly into your own tools with a simple JSON API.</p>
         </div>
     </div>
 </section>
 
-<section class="how-it-works">
+<!-- Features Detailed -->
+<section class="features-detailed">
     <div class="container">
         <div class="section-header">
             <div>
-                <div class="section-kicker">Process</div>
-                <h2 class="section-title">How a scan works</h2>
+                <div class="section-kicker">Under the hood</div>
+                <h2 class="section-title">How detection works</h2>
             </div>
         </div>
 
-        <div class="steps-container">
-            <div class="step animate-on-scroll">
-                <div class="step-number">01</div>
-                <div class="step-content">
-                    <h3>Submit a URL</h3>
-                    <p>Paste any link into the scanner — no account required for a single check.</p>
-                </div>
+        <div class="feature-list">
+            <div class="feature-row">
+                <div class="feature-index">01</div>
+                <h3>Trained classifier</h3>
+                <p>A trained classification model produces a probability score for each scan, built on labeled phishing and legitimate URL data.</p>
             </div>
 
-            <div class="step animate-on-scroll">
-                <div class="step-number">02</div>
-                <div class="step-content">
-                    <h3>Feature extraction</h3>
-                    <p>We extract 30+ structural, lexical, and domain-based features from the URL.</p>
-                </div>
+            <div class="feature-row">
+                <div class="feature-index">02</div>
+                <h3>30+ extracted features</h3>
+                <p>URL length, subdomain count, special-character density, HTTPS usage, and other lexical and structural signals.</p>
             </div>
 
-            <div class="step animate-on-scroll">
-                <div class="step-number">03</div>
-                <div class="step-content">
-                    <h3>Model scoring</h3>
-                    <p>The trained classifier returns a risk score and confidence level in real time.</p>
-                </div>
+            <div class="feature-row">
+                <div class="feature-index">03</div>
+                <h3>Real-time scoring</h3>
+                <p>Feature extraction and model inference both run synchronously, so you get a verdict in under a second.</p>
             </div>
 
-            <div class="step animate-on-scroll">
-                <div class="step-number">04</div>
-                <div class="step-content">
-                    <h3>Take action</h3>
-                    <p>Get a clear verdict plus specific recommendations for what to do next.</p>
-                </div>
+            <div class="feature-row">
+                <div class="feature-index">04</div>
+                <h3>Explained results</h3>
+                <p>Each result includes the specific suspicious patterns detected and tailored next-step recommendations.</p>
             </div>
-        </div>
-    </div>
-</section>
 
-<section class="testimonials">
-    <div class="testimonials-wrap">
-        <div class="section-kicker">Feedback</div>
-        <blockquote class="testimonial-featured animate-on-scroll">
-            <p>"PhishGuard is now part of our onboarding checklist — fast enough that engineers actually use it before clicking unknown links."</p>
-            <cite><strong>John Smith</strong> — IT Security Manager</cite>
-        </blockquote>
+            <div class="feature-row">
+                <div class="feature-index">05</div>
+                <h3>Scan history</h3>
+                <p>Signed-in users get a searchable log of past scans with risk trends over time.</p>
+            </div>
 
-        <div class="testimonials-row">
-            <blockquote class="testimonial-minor animate-on-scroll">
-                <p>"The risk breakdown is genuinely useful — it tells us why a URL was flagged, not just a yes/no verdict."</p>
-                <cite><strong>Sarah Johnson</strong> — Cybersecurity Analyst</cite>
-            </blockquote>
-
-            <blockquote class="testimonial-minor animate-on-scroll">
-                <p>"Clean API, sensible response format, no fuss to integrate into our existing alerting pipeline."</p>
-                <cite><strong>Mike Chen</strong> — Software Developer</cite>
-            </blockquote>
+            <div class="feature-row">
+                <div class="feature-index">06</div>
+                <h3>Privacy first</h3>
+                <p>Your scan history is private to your account and is never sold or shared with third parties.</p>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- CTA Section -->
 <section class="cta-section">
     <div class="cta-content">
-        <h2>Keep a record of every link you check</h2>
-        <p>Create a free account to track your scan history, spot patterns, and export reports.</p>
-        <a href="{{ url_for('register') }}" class="btn btn-primary btn-large">
-            <i class="fas fa-arrow-right"></i> Create a free account
+        <h2>See it in action</h2>
+        <p>Run a real scan and see the full breakdown for yourself.</p>
+        <a href="{{ url_for('check_url') }}" class="btn btn-primary btn-large">
+            <i class="fas fa-shield-halved"></i> Try it now
         </a>
     </div>
 </section>
-
-<script>
-function setExampleUrl(url) {
-    document.getElementById('urlInput').value = url;
-    document.getElementById('urlCheckForm').submit();
-}
-
-document.getElementById('urlCheckForm').addEventListener('submit', function() {
-    document.getElementById('checkBtn').disabled = true;
-    document.getElementById('loader').classList.add('active');
-});
-</script>
 {% endblock %}

@@ -218,10 +218,6 @@ def history():
     
     return render_template('history.html', checks=checks, stats=stats)
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
 @app.route('/api/check-url', methods=['POST'])
 def api_check_url():
     """API endpoint for URL checking"""

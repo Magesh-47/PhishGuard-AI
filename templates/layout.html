@@ -41,7 +41,6 @@
                     {% if current_user.is_authenticated %}
                         <li><a href="{{ url_for('history') }}" class="nav-link {% if request.endpoint == 'history' %}active{% endif %}">History</a></li>
                     {% endif %}
-                    <li><a href="{{ url_for('about') }}" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}">About</a></li>
                 </ul>
                 
                 <div class="nav-auth">
@@ -101,7 +100,6 @@
             <nav class="footer-nav" aria-label="Footer">
                 <a href="{{ url_for('index') }}">Home</a>
                 <a href="{{ url_for('check_url') }}">Check URL</a>
-                <a href="{{ url_for('about') }}">About</a>
             </nav>
         </div>
 
