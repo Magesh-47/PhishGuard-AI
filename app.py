@@ -222,10 +222,6 @@ def history():
 def about():
     return render_template('about.html')
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
-
 @app.route('/api/check-url', methods=['POST'])
 def api_check_url():
     """API endpoint for URL checking"""

@@ -844,75 +844,12 @@ code, .text-mono {
     margin-bottom: 32px;
 }
 
-/* ============ Generic panel (used in dashboard/history/contact) ============ */
+/* ============ Generic panel (used in dashboard/history) ============ */
 .panel {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     padding: 26px;
-}
-
-/* ============ Plain info list (contact page) ============ */
-.info-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 16px 0;
-    border-top: 1px solid var(--border);
-}
-
-.info-row:first-child {
-    border-top: none;
-    padding-top: 0;
-}
-
-.info-row i {
-    color: var(--accent);
-    font-size: 15px;
-    margin-top: 3px;
-    width: 18px;
-    flex-shrink: 0;
-}
-
-.info-row h3 {
-    font-size: 14.5px;
-    color: var(--text);
-    margin-bottom: 3px;
-}
-
-.info-row p {
-    margin: 0;
-    font-size: 13.5px;
-}
-
-/* ============ FAQ table ============ */
-.faq-list {
-    max-width: var(--container-w);
-    margin: 0 auto;
-}
-
-.faq-row {
-    display: grid;
-    grid-template-columns: 1fr 1.3fr;
-    gap: 40px;
-    padding: 26px 0;
-    border-top: 1px solid var(--border);
-}
-
-.faq-list .faq-row:last-child {
-    border-bottom: 1px solid var(--border);
-}
-
-.faq-row h3 {
-    font-size: 15.5px;
-    color: var(--text);
-    font-weight: 500;
-}
-
-.faq-row p {
-    font-size: 14.5px;
-    line-height: 1.7;
-    margin: 0;
 }
 
 /* ============ Forms ============ */
@@ -1346,11 +1283,6 @@ textarea.form-control {
 
     .feature-row p {
         grid-column: 2;
-    }
-
-    .faq-row {
-        grid-template-columns: 1fr;
-        gap: 10px;
     }
 
     .testimonials-row {
