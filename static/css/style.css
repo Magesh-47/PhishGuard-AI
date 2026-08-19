@@ -629,6 +629,7 @@ code, .text-mono {
     flex: 1;
     padding: 28px 0;
     border-right: 1px solid var(--border);
+    text-align: center;
 }
 
 .stat-cell:last-child {
