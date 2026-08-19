@@ -1088,12 +1088,6 @@ textarea.form-control {
 
     .nav-auth .btn { width: 100%; }
 
-    .hero-content h1 { font-size: 32px; }
-
-    .hero-cta { flex-direction: column; }
-
-    .hero-cta .btn { width: 100%; }
-
     .stat-strip {
         flex-direction: column;
     }
