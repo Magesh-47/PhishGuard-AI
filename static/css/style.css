@@ -5,36 +5,41 @@
 }
 
 :root {
-    /* Surfaces */
-    --bg: #090d13;
-    --bg-alt: #0c121a;
-    --surface: #111823;
-    --surface-2: #151e2b;
-    --border: #1f2b3a;
-    --border-strong: #2c3c4f;
+    /* Surfaces — deep purple/navy arcade night */
+    --bg: #0d0221;
+    --bg-alt: #0f0f1a;
+    --surface: #16092e;
+    --surface-2: #1f0f3d;
+    --border: #2c1a55;
+    --border-strong: #3d34a2;
 
-    /* Text */
-    --text: #e7edf5;
-    --text-dim: #8fa1b8;
-    --text-faint: #566579;
+    /* Text — icy neon white */
+    --text: #e6f1ff;
+    --text-dim: #a9b6d8;
+    --text-faint: #6d78a6;
 
-    /* Brand / status */
-    --accent: #21d4a8;
-    --accent-dim: #17a884;
-    --accent-ink: #04211a;
-    --danger: #f0475a;
-    --warning: #f2a93b;
-    --info: #3b9eff;
+    /* Brand / status — neon */
+    --accent: #00d4ff;
+    --accent-dim: #00b8e6;
+    --accent-ink: #001217;
+    --danger: #ff2e7e;
+    --warning: #ffb800;
+    --info: #b26bff;
 
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+    /* neon accent as rgb parts, for glows */
+    --accent-rgb: 0, 212, 255;
+    --danger-rgb: 255, 46, 126;
 
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 16px;
+    --font-body: 'Fira Code', 'JetBrains Mono', ui-monospace, Consolas, monospace;
+    --font-mono: 'Fira Code', 'JetBrains Mono', ui-monospace, Consolas, monospace;
+    --font-display: 'Press Start 2P', 'Fira Code', monospace;
+
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 10px;
 
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-    --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.45);
+    --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.6);
     --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
 
     --container-w: 1200px;
@@ -46,16 +51,38 @@ html {
 
 body {
     font-family: var(--font-body);
-    background: var(--bg);
+    background:
+        radial-gradient(circle at 50% -10%, #1a0033 0%, #0d0221 55%, #08010f 100%) fixed;
     color: var(--text);
     line-height: 1.6;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    position: relative;
+}
+
+/* faint neon grid overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        linear-gradient(rgba(var(--accent-rgb), 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--accent-rgb), 0.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 75%);
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
 }
 
 ::selection {
-    background: rgba(33, 212, 168, 0.25);
-    color: var(--text);
+    background: rgba(var(--accent-rgb), 0.3);
+    color: #fff;
 }
 
 ::-webkit-scrollbar {
@@ -1129,4 +1156,198 @@ textarea.form-control {
 .animate-on-scroll.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* =====================================================================
+   NEON ARCADE THEME  (inspired by motokotokyogame.net)
+   Press Start 2P pixel headings + Fira Code body, neon cyan/magenta glow
+   ===================================================================== */
+
+/* --- Pixel display headings (size-capped so the pixel font never explodes) --- */
+h1, h2,
+.section-title,
+.cta-content h2,
+.about-hero h1 {
+    font-family: var(--font-display) !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1.7 !important;
+    color: var(--text);
+    text-shadow: 0 0 12px rgba(var(--accent-rgb), 0.45);
+}
+
+h1, .about-hero h1 {
+    font-size: clamp(1.15rem, 1.2rem + 1.4vw, 1.75rem) !important;
+}
+
+h2, .section-title, .cta-content h2 {
+    font-size: clamp(1rem, 0.9rem + 1vw, 1.35rem) !important;
+}
+
+h3 {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* --- Logos in pixel font --- */
+.nav-logo span,
+.footer-logo {
+    font-family: var(--font-display) !important;
+    font-size: 15px !important;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+}
+
+.nav-logo i,
+.footer-logo i {
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.7);
+}
+
+/* --- Small mono labels get the arcade tint --- */
+.section-kicker,
+.example-urls h4 {
+    color: var(--accent);
+    text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
+}
+
+/* --- Text accents glow --- */
+.text-accent,
+a.text-accent {
+    color: var(--accent);
+    text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.5);
+}
+
+/* --- Navbar: neon underline on active/hover --- */
+.navbar {
+    background: rgba(13, 2, 33, 0.82);
+    border-bottom: 1px solid var(--border-strong);
+    box-shadow: 0 1px 0 rgba(var(--accent-rgb), 0.15);
+}
+
+.nav-link.active {
+    color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.08);
+    box-shadow: inset 0 -2px 0 var(--accent), 0 0 12px rgba(var(--accent-rgb), 0.2);
+    text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.5);
+}
+
+/* --- Buttons: neon arcade --- */
+.btn {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+}
+
+.btn-primary,
+.check-btn {
+    background: linear-gradient(180deg, #00e5ff, #00b8e6);
+    color: var(--accent-ink);
+    border-color: transparent;
+    box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.btn-primary:hover,
+.check-btn:hover {
+    background: linear-gradient(180deg, #4be9ff, #00d4ff);
+    box-shadow: 0 0 26px rgba(var(--accent-rgb), 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.btn-outline {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-outline:hover {
+    background: rgba(var(--accent-rgb), 0.1);
+    box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.35);
+    color: #fff;
+}
+
+.btn-danger {
+    background: linear-gradient(180deg, #ff4d90, #ff2e7e);
+    color: #1a0009;
+    box-shadow: 0 0 18px rgba(var(--danger-rgb), 0.45);
+}
+
+.btn-danger:hover {
+    box-shadow: 0 0 26px rgba(var(--danger-rgb), 0.7);
+}
+
+/* --- Panels / cards / surfaces get a subtle neon edge --- */
+.panel,
+.form-card,
+.result-details,
+.result-card {
+    box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.06), var(--shadow-md);
+}
+
+.form-card {
+    border-color: var(--border-strong);
+}
+
+/* --- Inputs: neon focus glow (overrides the old teal focus rings) --- */
+.form-control:focus,
+.url-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.18), 0 0 18px rgba(var(--accent-rgb), 0.25);
+}
+
+.form-header i {
+    text-shadow: 0 0 16px rgba(var(--accent-rgb), 0.6);
+}
+
+/* --- Badges (risk levels) --- */
+.risk-low {
+    background: rgba(var(--accent-rgb), 0.12);
+    color: var(--accent);
+    border-color: rgba(var(--accent-rgb), 0.4);
+    box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.25);
+}
+
+.risk-critical, .risk-high {
+    background: rgba(var(--danger-rgb), 0.12);
+    color: #ff6aa6;
+    border-color: rgba(var(--danger-rgb), 0.4);
+    box-shadow: 0 0 12px rgba(var(--danger-rgb), 0.25);
+}
+
+/* --- Result card accent edges --- */
+.result-safe { border-left-color: var(--accent); box-shadow: -4px 0 24px -8px rgba(var(--accent-rgb), 0.5), var(--shadow-md); }
+.result-phishing { border-left-color: var(--danger); box-shadow: -4px 0 24px -8px rgba(var(--danger-rgb), 0.5), var(--shadow-md); }
+
+.result-safe .risk-meter-fill { background: var(--accent); box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.8); }
+.result-phishing .risk-meter-fill { background: var(--danger); box-shadow: 0 0 10px rgba(var(--danger-rgb), 0.8); }
+
+/* --- Spinner in neon cyan --- */
+.spinner {
+    border-color: var(--surface-2);
+    border-top-color: var(--accent);
+    box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.4);
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- Footer status dot: cyan pulse --- */
+.footer-status .dot {
+    background: var(--accent);
+    box-shadow: 0 0 8px 1px rgba(var(--accent-rgb), 0.9);
+}
+
+@keyframes pulseDot {
+    0%   { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.6), 0 0 8px 1px rgba(var(--accent-rgb), 0.9); }
+    70%  { box-shadow: 0 0 0 7px rgba(var(--accent-rgb), 0), 0 0 8px 1px rgba(var(--accent-rgb), 0.9); }
+    100% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0), 0 0 8px 1px rgba(var(--accent-rgb), 0.9); }
+}
+
+/* --- Scrollbar hover in neon --- */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* Keep pixel-font headings from getting too tight on small screens */
+@media (max-width: 600px) {
+    h1, .about-hero h1 { font-size: 1.05rem !important; line-height: 1.8 !important; }
+    h2, .section-title, .cta-content h2 { font-size: 0.92rem !important; line-height: 1.8 !important; }
 }
