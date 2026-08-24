@@ -83,26 +83,52 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-top">
-            <div class="footer-brand">
+    <footer class="footer footer-arcade">
+        <div class="footer-inner">
+            <div class="footer-col footer-brand-col">
                 <a href="{{ url_for('index') }}" class="footer-logo">
                     <i class="fas fa-shield-halved"></i> PhishGuard
                 </a>
-                <p>Real-time phishing URL detection — built to catch the link before it catches you.</p>
-                <div class="social-links">
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <p class="footer-tagline">Real-time phishing URL detection — a model you can inspect, not a black box. Catch the link before it catches you.</p>
+                <div class="footer-leds">
+                    <div><span class="led led-cyan led-blink"></span> Model online</div>
+                    <div><span class="led led-cyan"></span> API ready</div>
+                    <div><span class="led led-pink"></span> Scanner armed</div>
                 </div>
             </div>
 
-            <nav class="footer-nav" aria-label="Footer">
+            <nav class="footer-col" aria-label="Site">
+                <h4 class="footer-heading">// Navigate</h4>
                 <a href="{{ url_for('index') }}">Home</a>
                 <a href="{{ url_for('check_url') }}">Check URL</a>
+                <a href="{{ url_for('about') }}">About</a>
+                <a href="{{ url_for('contact') }}">Contact</a>
             </nav>
+
+            <nav class="footer-col" aria-label="Account">
+                <h4 class="footer-heading">// Account</h4>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('history') }}">History</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('register') }}">Register</a>
+                {% endif %}
+            </nav>
+
+            <div class="footer-col footer-cta-col">
+                <h4 class="footer-heading">// Insert URL</h4>
+                <p class="footer-tagline">Drop a suspicious link and get an instant risk read.</p>
+                <a href="{{ url_for('check_url') }}" class="btn btn-primary btn-sm footer-cta">
+                    <i class="fas fa-play"></i> Start Scan
+                </a>
+            </div>
         </div>
 
         <div class="footer-bottom">
-            <span>&copy; 2026 PhishGuard. All rights reserved.</span>
+            <span class="footer-copy">&copy; 2026 PhishGuard</span>
+            <span class="footer-tag">// stay_sharp — no quarters required</span>
             <span class="footer-status"><span class="dot"></span> All systems operational</span>
         </div>
     </footer>
