@@ -1,0 +1,6 @@
+{% macro risk_badge(level) %}
+<span class="badge risk-{{ level|lower }}">
+    <i class="fas {% if level|lower == 'low' %}fa-check{% elif level|lower == 'error' %}fa-circle-question{% else %}fa-triangle-exclamation{% endif %}"></i>
+    {{ level }}
+</span>
+{% endmacro %}

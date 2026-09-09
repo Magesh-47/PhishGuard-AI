@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from "_risk_badge.html" import risk_badge %}
 
 {% block title %}Check URL — PhishGuard{% endblock %}
 {% block description %}Paste any link to check it for phishing in real time. PhishGuard scores 30+ signals and explains exactly why a URL is safe or dangerous.{% endblock %}
@@ -123,7 +124,7 @@
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Risk Level</span>
-                        <span class="detail-value badge risk-{{ result.risk_level|lower }}">{{ result.risk_level }}</span>
+                        <span class="detail-value">{{ risk_badge(result.risk_level) }}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Risk Score</span>

@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from "_risk_badge.html" import risk_badge %}
 
 {% block title %}Dashboard — PhishGuard{% endblock %}
 
@@ -232,7 +233,7 @@
                 {% for check in recent_checks %}
                 <div class="check-item">
                     <span class="check-url" title="{{ check.url }}">{{ check.url }}</span>
-                    <span class="badge risk-{{ check.risk_level|lower }}">{{ check.risk_level }}</span>
+                    {{ risk_badge(check.risk_level) }}
                     <span class="check-time">{{ check.checked_at }}</span>
                 </div>
                 {% endfor %}
