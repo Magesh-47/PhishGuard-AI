@@ -45,6 +45,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Scroll progress bar
+    const scrollProgress = document.getElementById('scrollProgress');
+    if (scrollProgress) {
+        const updateScrollProgress = () => {
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+            scrollProgress.style.width = pct + '%';
+        };
+        window.addEventListener('scroll', throttle(updateScrollProgress, 16), { passive: true });
+        updateScrollProgress();
+    }
+
     // Auto-hide flash messages
     const alerts = document.querySelectorAll('.alert');
     alerts.forEach(alert => {

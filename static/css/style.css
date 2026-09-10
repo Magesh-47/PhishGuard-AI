@@ -147,6 +147,19 @@ code, .text-mono {
     padding: 0 24px;
 }
 
+/* ============ Scroll progress ============ */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--danger));
+    box-shadow: 0 0 8px 1px rgba(var(--accent-rgb), 0.8);
+    z-index: 1050;
+    transition: width 0.1s ease-out;
+}
+
 /* ============ Navbar ============ */
 .navbar {
     background: rgba(9, 13, 19, 0.85);
