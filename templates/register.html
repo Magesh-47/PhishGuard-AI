@@ -184,7 +184,11 @@ function validateRegisterForm() {
         showNotification('You must agree to the Terms of Service', 'error');
         return false;
     }
-    
+
+    const registerBtn = document.getElementById('registerBtn');
+    registerBtn.disabled = true;
+    registerBtn.innerHTML = '<i class="fas fa-spinner spin"></i> Creating account...';
+
     return true;
 }
 
