@@ -44,6 +44,38 @@
         margin-bottom: 18px;
     }
 
+    .result-url {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .result-url span {
+        overflow-wrap: anywhere;
+    }
+
+    .copy-url-btn {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        background: transparent;
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius-sm);
+        color: var(--text-faint);
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 11px;
+        padding: 0;
+    }
+
+    .copy-url-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
     @media (max-width: 480px) {
         .check-card {
             padding: 28px 20px;
@@ -113,7 +145,12 @@
                                 Looks safe
                             {% endif %}
                         </h3>
-                        <p>{{ url }}</p>
+                        <p class="result-url">
+                            <span>{{ url }}</span>
+                            <button type="button" class="copy-url-btn" title="Copy URL" aria-label="Copy URL" onclick="copyToClipboard('{{ url|e }}')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </p>
                     </div>
                 </div>
 
