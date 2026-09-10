@@ -365,6 +365,8 @@ code, .text-mono {
 }
 
 .alert {
+    position: relative;
+    overflow: hidden;
     padding: 14px 16px;
     border-radius: var(--radius-md);
     display: flex;
@@ -380,6 +382,24 @@ code, .text-mono {
 .alert-success { border-left: 3px solid var(--accent); }
 .alert-error { border-left: 3px solid var(--danger); }
 .alert-info { border-left: 3px solid var(--info); }
+
+.alert-progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    animation: alertProgress var(--dismiss-duration, 5s) linear forwards;
+}
+
+.alert-success .alert-progress { background: var(--accent); }
+.alert-error .alert-progress { background: var(--danger); }
+.alert-info .alert-progress { background: var(--info); }
+
+@keyframes alertProgress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
 
 .alert i {
     font-size: 16px;

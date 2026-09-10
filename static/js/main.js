@@ -232,6 +232,7 @@ function showNotification(message, type = 'info') {
         <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
         <span>${message}</span>
         <button class="alert-close">&times;</button>
+        <div class="alert-progress" style="--dismiss-duration: 3s;"></div>
     `;
     
     const container = document.querySelector('.flash-messages');
