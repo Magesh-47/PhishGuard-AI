@@ -323,6 +323,14 @@
         animation: fadeIn 0.2s ease;
     }
 
+    /* Every direct child of body gets its own stacking context (so page
+       content sits above the fixed background grid), which traps this
+       modal inside <main> and lets the navbar and footer paint over the
+       backdrop. Lift main only while the modal is open. */
+    body.modal-open main {
+        z-index: 1100;
+    }
+
     .modal-content {
         background-color: var(--surface);
         border: 1px solid var(--border-strong);
@@ -717,10 +725,12 @@ function viewDetails(checkId) {
     }
 
     modal.style.display = 'block';
+    document.body.classList.add('modal-open');
 }
 
 function closeModal() {
     document.getElementById('detailsModal').style.display = 'none';
+    document.body.classList.remove('modal-open');
 }
 
 function deleteRecord(checkId) {
@@ -735,9 +745,8 @@ function recheckURL(url) {
 }
 
 window.onclick = function(event) {
-    const modal = document.getElementById('detailsModal');
-    if (event.target == modal) {
-        modal.style.display = 'none';
+    if (event.target == document.getElementById('detailsModal')) {
+        closeModal();
     }
 }
 
