@@ -112,14 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Password strength indicator
-    const passwordInput = document.getElementById('password');
-    if (passwordInput) {
-        passwordInput.addEventListener('input', function() {
-            checkPasswordStrength(this.value);
-        });
-    }
-    
     // URL input preview
     const urlInput = document.getElementById('urlInput');
     if (urlInput) {
@@ -181,33 +173,6 @@ function removeError(input) {
         }
     }
     input.classList.remove('error');
-}
-
-// Password Strength Checker
-function checkPasswordStrength(password) {
-    const strengthIndicator = document.getElementById('password-strength');
-    if (!strengthIndicator) return;
-    
-    let strength = 0;
-    
-    if (password.length >= 8) strength++;
-    if (password.match(/[a-z]+/)) strength++;
-    if (password.match(/[A-Z]+/)) strength++;
-    if (password.match(/[0-9]+/)) strength++;
-    if (password.match(/[$@#&!]+/)) strength++;
-    
-    const strengths = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
-    const colors = ['#f0475a', '#f0475a', '#f2a93b', '#21d4a8', '#21d4a8'];
-    
-    strengthIndicator.textContent = strengths[strength - 1] || 'Very Weak';
-    strengthIndicator.style.color = colors[strength - 1] || colors[0];
-    
-    // Update progress bar if exists
-    const progressBar = document.getElementById('strength-bar');
-    if (progressBar) {
-        progressBar.style.width = (strength * 20) + '%';
-        progressBar.style.backgroundColor = colors[strength - 1] || colors[0];
-    }
 }
 
 // URL Preview
