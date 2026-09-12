@@ -49,13 +49,13 @@
             
             <div class="nav-menu" id="navMenu">
                 <ul class="nav-links">
-                    <li><a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Home</a></li>
+                    <li><a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" {% if request.endpoint == 'index' %}aria-current="page"{% endif %}>Home</a></li>
                     {% if current_user.is_authenticated %}
-                        <li><a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}">Dashboard</a></li>
+                        <li><a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" {% if request.endpoint == 'dashboard' %}aria-current="page"{% endif %}>Dashboard</a></li>
                     {% endif %}
-                    <li><a href="{{ url_for('check_url') }}" class="nav-link {% if request.endpoint == 'check_url' %}active{% endif %}">Check URL</a></li>
+                    <li><a href="{{ url_for('check_url') }}" class="nav-link {% if request.endpoint == 'check_url' %}active{% endif %}" {% if request.endpoint == 'check_url' %}aria-current="page"{% endif %}>Check URL</a></li>
                     {% if current_user.is_authenticated %}
-                        <li><a href="{{ url_for('history') }}" class="nav-link {% if request.endpoint == 'history' %}active{% endif %}">History</a></li>
+                        <li><a href="{{ url_for('history') }}" class="nav-link {% if request.endpoint == 'history' %}active{% endif %}" {% if request.endpoint == 'history' %}aria-current="page"{% endif %}>History</a></li>
                     {% endif %}
                 </ul>
                 
