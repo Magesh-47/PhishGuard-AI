@@ -37,9 +37,10 @@
                 </label>
                 <input type="password" class="form-control" id="password" name="password"
                        placeholder="Create a password" autocomplete="new-password" required oninput="checkPasswordStrength(this.value)">
-                <span class="password-toggle" onclick="togglePassword('password')">
+                <button type="button" class="password-toggle" aria-label="Show password"
+                        onclick="togglePassword('password', this)">
                     <i class="fas fa-eye"></i>
-                </span>
+                </button>
                 <div class="password-strength" style="margin-top: 10px;">
                     <div class="strength-bar-container" style="height: 5px; background: #f0f0f0; border-radius: 5px; overflow: hidden;">
                         <div id="strengthBar" style="height: 100%; width: 0; transition: all 0.3s ease;"></div>
@@ -54,9 +55,10 @@
                 </label>
                 <input type="password" class="form-control" id="confirm_password" name="confirm_password"
                        placeholder="Confirm your password" autocomplete="new-password" required>
-                <span class="password-toggle" onclick="togglePassword('confirm_password')">
+                <button type="button" class="password-toggle" aria-label="Show password"
+                        onclick="togglePassword('confirm_password', this)">
                     <i class="fas fa-eye"></i>
-                </span>
+                </button>
                 <div id="passwordMatch" style="font-size: 12px; margin-top: 5px;"></div>
             </div>
             
@@ -80,17 +82,14 @@
 </div>
 
 <script>
-function togglePassword(fieldId) {
+function togglePassword(fieldId, btn) {
     const field = document.getElementById(fieldId);
-    const icon = event.currentTarget.querySelector('i');
-    
-    if (field.type === 'password') {
-        field.type = 'text';
-        icon.className = 'fas fa-eye-slash';
-    } else {
-        field.type = 'password';
-        icon.className = 'fas fa-eye';
-    }
+    const icon = btn.querySelector('i');
+    const revealing = field.type === 'password';
+
+    field.type = revealing ? 'text' : 'password';
+    icon.className = revealing ? 'fas fa-eye-slash' : 'fas fa-eye';
+    btn.setAttribute('aria-label', revealing ? 'Hide password' : 'Show password');
 }
 
 function checkPasswordStrength(password) {
@@ -209,6 +208,11 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor: pointer;
     color: var(--text-faint);
     transition: color 0.2s ease;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    line-height: 1;
 }
 
 .password-toggle:hover {

@@ -26,9 +26,10 @@
                 </label>
                 <input type="password" class="form-control" id="password" name="password"
                        placeholder="Enter your password" autocomplete="current-password" required>
-                <span class="password-toggle" onclick="togglePassword('password')">
+                <button type="button" class="password-toggle" aria-label="Show password"
+                        onclick="togglePassword('password', this)">
                     <i class="fas fa-eye"></i>
-                </span>
+                </button>
             </div>
 
             <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
@@ -51,17 +52,14 @@
 </div>
 
 <script>
-function togglePassword(fieldId) {
+function togglePassword(fieldId, btn) {
     const field = document.getElementById(fieldId);
-    const icon = event.currentTarget.querySelector('i');
-    
-    if (field.type === 'password') {
-        field.type = 'text';
-        icon.className = 'fas fa-eye-slash';
-    } else {
-        field.type = 'password';
-        icon.className = 'fas fa-eye';
-    }
+    const icon = btn.querySelector('i');
+    const revealing = field.type === 'password';
+
+    field.type = revealing ? 'text' : 'password';
+    icon.className = revealing ? 'fas fa-eye-slash' : 'fas fa-eye';
+    btn.setAttribute('aria-label', revealing ? 'Hide password' : 'Show password');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -96,6 +94,11 @@ document.getElementById('loginForm').addEventListener('submit', function() {
     cursor: pointer;
     color: var(--text-faint);
     transition: color 0.2s ease;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    line-height: 1;
 }
 
 .password-toggle:hover {
