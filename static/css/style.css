@@ -818,7 +818,7 @@ textarea.form-control {
 .url-input:focus {
     border-color: var(--accent);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(33, 212, 168, 0.15);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.18);
 }
 
 .check-btn {
@@ -838,11 +838,18 @@ textarea.form-control {
 }
 
 .check-btn:hover {
-    background: #35e6bb;
+    background: var(--accent-dim);
+}
+
+.check-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
 }
 
 .check-btn:disabled {
-    opacity: 0.6;
+    background: var(--border-strong);
+    color: var(--text-faint);
+    opacity: 0.85;
     cursor: not-allowed;
 }
 
