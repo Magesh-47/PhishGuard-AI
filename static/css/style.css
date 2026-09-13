@@ -962,7 +962,7 @@ textarea.form-control {
 }
 
 .result-title h3 {
-    font-size: 19px;
+    font-size: 21px;
     color: var(--text);
     margin-bottom: 3px;
 }
@@ -1016,6 +1016,12 @@ textarea.form-control {
     margin-bottom: 8px;
 }
 
+.risk-meter-label span:last-child {
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-weight: 700;
+}
+
 .risk-meter-bar {
     height: 8px;
     background: var(--surface);
@@ -1035,6 +1041,8 @@ textarea.form-control {
 
 .analysis-section {
     margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
 }
 
 .analysis-title {
