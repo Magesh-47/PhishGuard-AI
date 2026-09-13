@@ -1137,6 +1137,7 @@ textarea.form-control {
     .nav-menu.active {
         max-height: 80vh;
         padding: 10px 20px 20px;
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
     }
 
     .nav-links {
@@ -1145,6 +1146,15 @@ textarea.form-control {
         width: 100%;
         margin-right: 0;
         gap: 4px;
+    }
+
+    .nav-link {
+        padding: 12px 14px;
+    }
+
+    .nav-link.active {
+        border-left: 2px solid var(--accent);
+        padding-left: 12px;
     }
 
     .nav-auth {
