@@ -27,6 +27,24 @@
         max-width: 560px;
     }
 
+    .hero-scan-form {
+        max-width: 760px;
+        margin-top: 30px;
+    }
+
+    .hero-scan-note {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 11px;
+        color: var(--text-faint);
+        font-size: 12px;
+    }
+
+    .hero-scan-note i {
+        color: var(--accent);
+    }
+
     .mission-section {
         padding: 20px 24px 90px;
     }
@@ -87,6 +105,25 @@
         <div class="section-kicker">About PhishGuard</div>
         <h1>Detection you can inspect,<br>not a black box</h1>
         <p>PhishGuard analyzes URL structure, domain signals, and lexical patterns with a trained machine learning model — then shows you exactly why a link was flagged, not just a verdict.</p>
+
+        <form class="hero-scan-form" method="POST" action="{{ url_for('check_url') }}">
+            <div class="url-input-group">
+                <input type="text"
+                       class="url-input"
+                       name="url"
+                       id="urlInput"
+                       placeholder="Paste a suspicious URL to scan"
+                       inputmode="url"
+                       autocapitalize="none"
+                       autocorrect="off"
+                       spellcheck="false"
+                       required>
+                <button type="submit" class="check-btn">
+                    <i class="fas fa-magnifying-glass"></i> Scan URL
+                </button>
+            </div>
+            <p class="hero-scan-note"><i class="fas fa-shield-halved"></i> Get a risk score and an explanation in under a second.</p>
+        </form>
     </div>
 </section>
 
