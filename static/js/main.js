@@ -4,9 +4,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.getElementById('navMenu');
     
     if (hamburger) {
-        hamburger.addEventListener('click', function() {
+        const toggleMenu = function() {
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
+            const isOpen = hamburger.classList.contains('active');
+            hamburger.setAttribute('aria-expanded', isOpen);
+            hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        };
+
+        hamburger.addEventListener('click', toggleMenu);
+        hamburger.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleMenu();
+            }
         });
     }
     
@@ -15,6 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.setAttribute('aria-label', 'Open navigation menu');
         });
     });
     
