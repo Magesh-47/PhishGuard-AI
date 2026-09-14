@@ -106,7 +106,7 @@
         <h1>Detection you can inspect,<br>not a black box</h1>
         <p>PhishGuard analyzes URL structure, domain signals, and lexical patterns with a trained machine learning model — then shows you exactly why a link was flagged, not just a verdict.</p>
 
-        <form class="hero-scan-form" method="POST" action="{{ url_for('check_url') }}">
+        <form class="hero-scan-form" id="heroScanForm" method="POST" action="{{ url_for('check_url') }}">
             <div class="url-input-group">
                 <input type="text"
                        class="url-input"
@@ -118,7 +118,7 @@
                        autocorrect="off"
                        spellcheck="false"
                        required>
-                <button type="submit" class="check-btn">
+                <button type="submit" class="check-btn" id="heroScanBtn">
                     <i class="fas fa-magnifying-glass"></i> Scan URL
                 </button>
             </div>
@@ -222,4 +222,16 @@
         </a>
     </div>
 </section>
+
+<script>
+document.getElementById('heroScanForm').addEventListener('submit', function() {
+    const input = this.querySelector('input[name="url"]');
+    const button = document.getElementById('heroScanBtn');
+
+    if (!input.value.trim()) return;
+
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner spin"></i> Scanning...';
+});
+</script>
 {% endblock %}
