@@ -104,14 +104,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href.length < 2) return;
+
+            const target = document.querySelector(href);
+            if (!target) return;
+
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            // Scrolling alone leaves focus behind, so keyboard users land back
+            // at the top of the tab order instead of at the target.
+            target.focus({ preventScroll: true });
         });
     });
     
