@@ -223,5 +223,17 @@ document.getElementById('urlCheckForm').addEventListener('submit', function(e) {
         existingResult.style.display = 'none';
     }
 });
+
+// History's "Recheck" action links here as ?url=..., so prefill the field.
+// Assigned via .value (never innerHTML) so the parameter can't inject markup.
+(function prefillFromQuery() {
+    const requested = new URLSearchParams(window.location.search).get('url');
+    if (!requested) return;
+
+    const input = document.getElementById('urlInput');
+    input.value = requested;
+    input.focus();
+    input.setSelectionRange(input.value.length, input.value.length);
+})();
 </script>
 {% endblock %}
