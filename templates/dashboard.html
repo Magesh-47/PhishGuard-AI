@@ -293,17 +293,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const ctx = chartCanvas.getContext('2d');
 
+    // Bucket keys are UTC dates because the API buckets on checked_at (UTC).
     const labels = [];
+    const dayKeys = [];
     const today = new Date();
     for (let i = 29; i >= 0; i--) {
         const date = new Date(today);
-        date.setDate(date.getDate() - i);
-        labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+        date.setUTCDate(date.getUTCDate() - i);
+        const key = date.toISOString().split('T')[0];
+        dayKeys.push(key);
+        labels.push(new Date(key + 'T00:00:00Z').toLocaleDateString('en-US', {
+            month: 'short', day: 'numeric', timeZone: 'UTC'
+        }));
     }
 
-    const phishingData = Array(30).fill(0).map(() => Math.floor(Math.random() * 10));
-    const safeData = Array(30).fill(0).map(() => Math.floor(Math.random() * 20));
+    fetch('{{ url_for("api_user_stats", user_id=current_user.id) }}?days=30', {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+        .then(response => response.ok ? response.json() : Promise.reject(new Error(response.status)))
+        .then(stats => {
+            const daily = stats.daily_stats || {};
+            renderTrendChart(
+                dayKeys.map(key => (daily[key] || {}).phishing || 0),
+                dayKeys.map(key => {
+                    const day = daily[key];
+                    return day ? day.total - day.phishing : 0;
+                })
+            );
+        })
+        .catch(() => {
+            chartCanvas.parentElement.innerHTML =
+                '<div class="chart-empty"><i class="fas fa-triangle-exclamation"></i>' +
+                '<p>Could not load your detection trend. Refresh to try again.</p></div>';
+        });
 
+    function renderTrendChart(phishingData, safeData) {
     new Chart(ctx, {
         type: 'line',
         data: {
@@ -352,6 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    }
 });
 </script>
 {% endblock %}
