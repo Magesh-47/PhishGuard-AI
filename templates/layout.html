@@ -86,7 +86,7 @@
                 <div class="alert alert-{{ category }} animate-slide-down">
                     <i class="fas {% if category == 'success' %}fa-check-circle{% elif category == 'error' %}fa-exclamation-circle{% else %}fa-info-circle{% endif %}"></i>
                     <span>{{ message }}</span>
-                    <button class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+                    <button class="alert-close" type="button" aria-label="Dismiss notification" onclick="this.parentElement.remove()">&times;</button>
                     <div class="alert-progress" style="--dismiss-duration: 5s;"></div>
                 </div>
             {% endfor %}

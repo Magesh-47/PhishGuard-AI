@@ -183,7 +183,7 @@ function showNotification(message, type = 'info') {
     notification.innerHTML = `
         <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
         <span>${message}</span>
-        <button class="alert-close">&times;</button>
+        <button class="alert-close" type="button" aria-label="Dismiss notification">&times;</button>
         <div class="alert-progress" style="--dismiss-duration: 3s;"></div>
     `;
     
