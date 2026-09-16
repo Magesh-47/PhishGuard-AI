@@ -89,10 +89,36 @@
         margin-bottom: 30px;
         overflow: hidden;
         padding: 0;
+        position: relative;
     }
 
     .history-table-scroll {
         overflow-x: auto;
+    }
+
+    /* The table is far wider than a phone screen, with nothing to indicate
+       the rest of the columns exist. Fades the cut-off edge while there is
+       more to scroll to. */
+    .history-table-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 44px;
+        pointer-events: none;
+        background: linear-gradient(90deg, transparent, var(--surface));
+        opacity: 0;
+        transition: opacity var(--transition);
+    }
+
+    .history-table-container.has-more::after {
+        opacity: 1;
+    }
+
+    .history-table-scroll:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: -2px;
     }
 
     .history-table {
@@ -482,7 +508,7 @@
         <!-- History Table -->
         <div class="panel history-table-container animate-on-scroll">
             {% if checks.items %}
-            <div class="history-table-scroll">
+            <div class="history-table-scroll" id="historyScroll" tabindex="0" role="region" aria-label="Scan history table, scrolls horizontally">
             <table class="history-table" id="historyTable">
                 <thead>
                     <tr>
@@ -758,6 +784,21 @@ document.addEventListener('keydown', function(event) {
         closeModal();
     }
 });
+
+(function trackTableOverflow() {
+    const scroller = document.getElementById('historyScroll');
+    if (!scroller) return;
+
+    const container = scroller.closest('.history-table-container');
+    const update = function() {
+        const remaining = scroller.scrollWidth - scroller.clientWidth - scroller.scrollLeft;
+        container.classList.toggle('has-more', remaining > 1);
+    };
+
+    scroller.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+})();
 
 document.addEventListener('DOMContentLoaded', function() {
     const today = new Date();
