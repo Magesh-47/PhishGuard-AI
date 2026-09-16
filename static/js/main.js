@@ -81,26 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
     
-    // Add ripple effect to buttons
-    const buttons = document.querySelectorAll('.btn');
-    buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            const ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-            this.appendChild(ripple);
-            
-            const x = e.clientX - e.target.offsetLeft;
-            const y = e.clientY - e.target.offsetTop;
-            
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-    });
-    
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -131,13 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // URL input preview
-    const urlInput = document.getElementById('urlInput');
-    if (urlInput) {
-        urlInput.addEventListener('input', function() {
-            previewURL(this.value);
-        });
-    }
 });
 
 // Form Validation
@@ -194,23 +167,6 @@ function removeError(input) {
     input.classList.remove('error');
 }
 
-// URL Preview
-function previewURL(url) {
-    const preview = document.getElementById('url-preview');
-    if (!preview) return;
-    
-    if (url) {
-        if (!url.startsWith('http')) {
-            url = 'https://' + url;
-        }
-        preview.textContent = url;
-        preview.style.color = '#21d4a8';
-    } else {
-        preview.textContent = 'Enter a URL to preview';
-        preview.style.color = '#999';
-    }
-}
-
 // Copy to clipboard
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
@@ -248,109 +204,6 @@ function showNotification(message, type = 'info') {
     }
 }
 
-// Loading spinner
-function showLoading(show = true) {
-    const spinner = document.getElementById('loading-spinner');
-    if (spinner) {
-        spinner.style.display = show ? 'flex' : 'none';
-    }
-}
-
-// AJAX request helper
-async function ajaxRequest(url, method = 'GET', data = null) {
-    const options = {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    };
-    
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-    
-    try {
-        showLoading(true);
-        const response = await fetch(url, options);
-        const result = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(result.error || 'Request failed');
-        }
-        
-        return result;
-    } catch (error) {
-        showNotification(error.message, 'error');
-        throw error;
-    } finally {
-        showLoading(false);
-    }
-}
-
-// Theme toggler
-function toggleTheme() {
-    const body = document.body;
-    const currentTheme = body.getAttribute('data-theme') || 'light';
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
-    body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    
-    // Update icon
-    const themeIcon = document.getElementById('theme-icon');
-    if (themeIcon) {
-        themeIcon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-    }
-}
-
-// Load saved theme
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-    document.body.setAttribute('data-theme', savedTheme);
-}
-
-// Export functionality
-function exportData(data, filename, type = 'json') {
-    let content;
-    let mimeType;
-    
-    if (type === 'json') {
-        content = JSON.stringify(data, null, 2);
-        mimeType = 'application/json';
-    } else if (type === 'csv') {
-        // Convert to CSV
-        const headers = Object.keys(data[0] || {});
-        const csv = [
-            headers.join(','),
-            ...data.map(row => headers.map(h => JSON.stringify(row[h] || '')).join(','))
-        ].join('\n');
-        content = csv;
-        mimeType = 'text/csv';
-    }
-    
-    const blob = new Blob([content], { type: mimeType });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${filename}.${type}`;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-
-// Debounce function for performance
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
 // Throttle function for performance
 function throttle(func, limit) {
     let inThrottle;
@@ -363,26 +216,4 @@ function throttle(func, limit) {
     };
 }
 
-// Initialize tooltips
-document.querySelectorAll('[data-tooltip]').forEach(element => {
-    element.addEventListener('mouseenter', function(e) {
-        const tooltip = document.createElement('div');
-        tooltip.className = 'tooltip';
-        tooltip.textContent = this.dataset.tooltip;
-        tooltip.style.left = e.pageX + 'px';
-        tooltip.style.top = e.pageY + 'px';
-        document.body.appendChild(tooltip);
-        
-        this.addEventListener('mouseleave', () => {
-            tooltip.remove();
-        });
-    });
-});
 
-// Responsive tables
-document.querySelectorAll('table').forEach(table => {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'table-responsive';
-    table.parentNode.insertBefore(wrapper, table);
-    wrapper.appendChild(table);
-});
