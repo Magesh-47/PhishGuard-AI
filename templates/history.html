@@ -547,7 +547,7 @@
                                 <button class="action-icon-btn" onclick="viewDetails(this)" title="View Details" aria-label="View details for {{ check.url }}">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="action-icon-btn" onclick="recheckURL('{{ check.url }}')" title="Recheck" aria-label="Recheck {{ check.url }}">
+                                <button class="action-icon-btn" data-url="{{ check.url }}" onclick="recheckURL(this.dataset.url)" title="Recheck" aria-label="Recheck {{ check.url }}">
                                     <i class="fas fa-rotate"></i>
                                 </button>
                             </div>

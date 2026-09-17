@@ -151,7 +151,7 @@
                         </h3>
                         <p class="result-url">
                             <span>{{ url }}</span>
-                            <button type="button" class="copy-url-btn" title="Copy URL" aria-label="Copy URL" onclick="copyToClipboard('{{ url|e }}')">
+                            <button type="button" class="copy-url-btn" title="Copy URL" aria-label="Copy URL" data-url="{{ url }}" onclick="copyToClipboard(this.dataset.url)">
                                 <i class="fas fa-copy"></i>
                             </button>
                         </p>
