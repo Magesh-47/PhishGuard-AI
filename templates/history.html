@@ -684,9 +684,14 @@ function exportHistory(format) {
     });
 
     if (format === 'csv') {
-        let csv = headers.join(',') + '\n';
+        // A scanned URL is attacker-controlled by definition and can contain
+        // a literal " character. Per RFC 4180, a quote inside a quoted field
+        // must be escaped as "" - without this, one such URL corrupts the
+        // rest of that row (and can shift every row after it).
+        const escapeCsvField = val => `"${String(val).replace(/"/g, '""')}"`;
+        let csv = headers.map(escapeCsvField).join(',') + '\n';
         rows.forEach(row => {
-            csv += Object.values(row).map(val => `"${val}"`).join(',') + '\n';
+            csv += Object.values(row).map(escapeCsvField).join(',') + '\n';
         });
 
         const blob = new Blob([csv], { type: 'text/csv' });
