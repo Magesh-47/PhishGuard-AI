@@ -816,6 +816,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('endDate').value = today.toISOString().split('T')[0];
     document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+
+    // Setting .value directly doesn't fire 'change', so without this the
+    // table kept showing every row while the inputs above it claimed only
+    // the last 30 days were selected.
+    applyFilters();
 });
 </script>
 {% endblock %}
