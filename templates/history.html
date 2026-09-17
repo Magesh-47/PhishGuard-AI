@@ -636,7 +636,11 @@ function applyFilters() {
         // Date filter
         if (show && (startDate || endDate)) {
             const dateCell = row.querySelector('td:nth-child(5)').textContent.trim();
-            const checkDate = new Date(dateCell).toISOString().split('T')[0];
+            // The cell already shows "YYYY-MM-DD ...": take that literally rather
+            // than re-parsing through Date(), which reinterprets it as the
+            // browser's local timezone and can shift it onto the wrong day
+            // relative to what this same row is displaying.
+            const checkDate = dateCell.slice(0, 10);
 
             if (startDate && checkDate < startDate) show = false;
             if (endDate && checkDate > endDate) show = false;
