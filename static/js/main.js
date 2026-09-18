@@ -102,7 +102,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Form validation
-    const forms = document.querySelectorAll('form');
+    // Forms with their own onsubmit handler (e.g. registerForm) already run
+    // full validation and show their own feedback; running this generic
+    // validator on top of those produced two conflicting error messages
+    // (a toast from the form's own handler and an inline error from this one)
+    // for the same field.
+    const forms = document.querySelectorAll('form:not([onsubmit])');
     forms.forEach(form => {
         form.addEventListener('submit', function(e) {
             if (!validateForm(this)) {
