@@ -529,7 +529,7 @@
                         <td>
                             {{ risk_badge(check.risk_level) }}
                         </td>
-                        <td>{{ check.confidence }}</td>
+                        <td>{{ "%.2f"|format(check.confidence * 100) }}%</td>
                         <td>
                             <div class="risk-progress">
                                 <span>{{ "%.1f"|format(check.risk_score) }}%</span>
