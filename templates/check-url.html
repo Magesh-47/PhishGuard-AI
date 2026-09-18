@@ -211,7 +211,10 @@
 <script>
 function setExampleUrl(url) {
     document.getElementById('urlInput').value = url;
-    document.getElementById('urlCheckForm').submit();
+    // requestSubmit() (unlike submit()) fires the form's 'submit' event, which is
+    // what shows the loader and disables the Scan button - without it, an example
+    // click skipped that feedback while a typed-and-clicked scan got it.
+    document.getElementById('urlCheckForm').requestSubmit();
 }
 
 document.getElementById('urlCheckForm').addEventListener('submit', function(e) {
