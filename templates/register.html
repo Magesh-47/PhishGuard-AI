@@ -65,8 +65,10 @@
             <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
                 <input type="checkbox" id="terms" name="terms" required style="width: auto;">
                 <label for="terms" style="margin: 0; font-weight: 400;">
-                    I agree to the <a href="#">Terms of Service</a> and
-                    <a href="#">Privacy Policy</a>
+                    I agree to the
+                    <button type="button" class="link-btn" onclick="event.stopPropagation(); showNotification('Terms of Service page is coming soon.', 'info')">Terms of Service</button>
+                    and
+                    <button type="button" class="link-btn" onclick="event.stopPropagation(); showNotification('Privacy Policy page is coming soon.', 'info')">Privacy Policy</button>
                 </label>
             </div>
 
@@ -230,6 +232,21 @@ document.addEventListener('DOMContentLoaded', function() {
     border: 1px solid var(--border);
     border-radius: 5px;
     overflow: hidden;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--accent);
+    font-family: var(--font-body);
+    font-size: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link-btn:hover {
+    text-decoration: underline;
 }
 </style>
 {% endblock %}
