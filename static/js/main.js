@@ -185,8 +185,12 @@ function copyToClipboard(text) {
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `alert alert-${type}`;
+    // Matches the icon branching the server-rendered flash messages use
+    // (layout.html) - this only checked for 'success' before, so an 'error'
+    // toast showed a plain info icon despite being styled red.
+    const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
     notification.innerHTML = `
-        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+        <i class="fas ${icon}"></i>
         <span>${message}</span>
         <button class="alert-close" type="button" aria-label="Dismiss notification">&times;</button>
         <div class="alert-progress" style="--dismiss-duration: 3s;"></div>
