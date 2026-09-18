@@ -37,7 +37,7 @@
                     <input type="checkbox" name="remember" style="width: auto;">
                     <span>Remember me</span>
                 </label>
-                <a href="#" style="text-decoration: none; font-size: 13.5px;">Forgot password?</a>
+                <button type="button" class="link-btn" onclick="showNotification('Password reset isn\'t available yet — contact support for help.', 'info')">Forgot password?</button>
             </div>
 
             <button type="submit" class="btn btn-primary btn-block">
@@ -107,6 +107,21 @@ document.getElementById('loginForm').addEventListener('submit', function() {
 
 .form-control {
     padding-right: 45px;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--accent);
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link-btn:hover {
+    text-decoration: underline;
 }
 </style>
 {% endblock %}
