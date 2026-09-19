@@ -12,6 +12,13 @@ document.addEventListener('DOMContentLoaded', function() {
             hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
         };
 
+        const closeMenu = function() {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.setAttribute('aria-label', 'Open navigation menu');
+        };
+
         hamburger.addEventListener('click', toggleMenu);
         hamburger.addEventListener('keydown', function(event) {
             if (event.key === 'Enter' || event.key === ' ') {
@@ -19,17 +26,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 toggleMenu();
             }
         });
-    }
-    
-    // Close mobile menu when clicking a link
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-            hamburger.setAttribute('aria-label', 'Open navigation menu');
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', closeMenu);
         });
-    });
+
+        // Close when tapping/clicking outside the open menu - it was staying
+        // open indefinitely otherwise, since nothing but a nav-link click closed it.
+        document.addEventListener('click', function(event) {
+            if (!navMenu.classList.contains('active')) return;
+            if (navMenu.contains(event.target) || hamburger.contains(event.target)) return;
+            closeMenu();
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && navMenu.classList.contains('active')) {
+                closeMenu();
+                hamburger.focus();
+            }
+        });
+    }
     
     // Scroll Animations
     const animateElements = document.querySelectorAll('.animate-on-scroll');
