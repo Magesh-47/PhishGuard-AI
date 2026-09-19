@@ -135,15 +135,18 @@
 
             <!-- Results -->
             {% if result %}
-            <div class="result-card {% if result.is_phishing %}result-phishing{% else %}result-safe{% endif %}"
+            {% set is_error = result.risk_level == 'ERROR' %}
+            <div class="result-card {% if is_error %}result-error{% elif result.is_phishing %}result-phishing{% else %}result-safe{% endif %}"
                  id="resultCard">
                 <div class="result-header">
                     <div class="result-icon">
-                        <i class="fas {% if result.is_phishing %}fa-triangle-exclamation{% else %}fa-check{% endif %}"></i>
+                        <i class="fas {% if is_error %}fa-circle-question{% elif result.is_phishing %}fa-triangle-exclamation{% else %}fa-check{% endif %}"></i>
                     </div>
                     <div class="result-title">
                         <h3>
-                            {% if result.is_phishing %}
+                            {% if is_error %}
+                                Couldn't analyze this URL
+                            {% elif result.is_phishing %}
                                 Phishing detected
                             {% else %}
                                 Looks safe
@@ -158,6 +161,9 @@
                     </div>
                 </div>
 
+                {% if is_error %}
+                <p class="result-error-note">The scan couldn't be completed, so no risk verdict is available for this URL. Please try again.</p>
+                {% else %}
                 <div class="result-details">
                     <div class="detail-item">
                         <span class="detail-label">Confidence</span>
@@ -182,6 +188,7 @@
                         <div class="risk-meter-fill" style="width: {{ result.risk_score }}%"></div>
                     </div>
                 </div>
+                {% endif %}
 
                 {% if result.analysis %}
                 <div class="analysis-section">
