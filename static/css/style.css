@@ -371,7 +371,16 @@ main:focus {
     border: 1px solid transparent;
 }
 
-.risk-critical, .risk-high {
+/* Distinct from .risk-critical - the risk-score progress bar next to this
+   badge already colors HIGH and CRITICAL rows differently, so the badge
+   was the only thing in the row claiming they look the same. */
+.risk-high {
+    background: rgba(255, 107, 129, 0.12);
+    color: #ff6b81;
+    border-color: rgba(255, 107, 129, 0.3);
+}
+
+.risk-critical {
     background: rgba(240, 71, 90, 0.12);
     color: #ff7c8a;
     border-color: rgba(240, 71, 90, 0.3);
@@ -1441,9 +1450,16 @@ a.text-accent {
     box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.25);
 }
 
-.risk-critical, .risk-high {
+.risk-high {
+    background: rgba(255, 107, 129, 0.12);
+    color: #ff6b81;
+    border-color: rgba(255, 107, 129, 0.4);
+    box-shadow: 0 0 12px rgba(255, 107, 129, 0.25);
+}
+
+.risk-critical {
     background: rgba(var(--danger-rgb), 0.12);
-    color: #ff6aa6;
+    color: var(--danger);
     border-color: rgba(var(--danger-rgb), 0.4);
     box-shadow: 0 0 12px rgba(var(--danger-rgb), 0.25);
 }
