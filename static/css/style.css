@@ -803,6 +803,17 @@ main:focus {
     box-shadow: 0 0 0 3px rgba(33, 212, 168, 0.15);
 }
 
+.form-control.error {
+    border-color: var(--danger);
+}
+
+.error-message {
+    display: block;
+    margin-top: 6px;
+    color: var(--danger);
+    font-size: 12px;
+}
+
 textarea.form-control {
     resize: vertical;
     min-height: 110px;
