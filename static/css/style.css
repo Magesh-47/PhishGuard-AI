@@ -5,6 +5,12 @@
 }
 
 :root {
+    /* Site is dark-only (no light mode), so tell the browser to render native
+       controls (date-picker icon/calendar popup, etc.) in their dark variant -
+       without this, the date filter's calendar icon rendered near-black on
+       our dark input background and was almost invisible. */
+    color-scheme: dark;
+
     /* Surfaces — deep purple/navy arcade night */
     --bg: #0d0221;
     --bg-alt: #0f0f1a;
