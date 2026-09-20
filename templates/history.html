@@ -809,6 +809,25 @@ document.addEventListener('keydown', function(event) {
     update();
 })();
 
+// The export dropdown opens purely via CSS (:hover / :focus-within), so
+// aria-expanded never reflected that - screen reader users had no way to
+// know whether the menu was open. Mirror whichever condition CSS is
+// actually using rather than tracking hover/focus state separately.
+(function syncExportMenuAria() {
+    const menu = document.querySelector('.export-menu');
+    const trigger = document.getElementById('exportMenuBtn');
+    if (!menu || !trigger) return;
+
+    const update = function() {
+        const open = menu.matches(':hover') || menu.matches(':focus-within');
+        trigger.setAttribute('aria-expanded', open);
+    };
+
+    ['mouseenter', 'mouseleave', 'focusin', 'focusout'].forEach(evt => {
+        menu.addEventListener(evt, update);
+    });
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     const today = new Date();
     const thirtyDaysAgo = new Date(today);
