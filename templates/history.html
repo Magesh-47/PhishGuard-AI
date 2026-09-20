@@ -532,7 +532,7 @@
                         <td>{{ "%.2f"|format(check.confidence * 100) }}%</td>
                         <td>
                             <div class="risk-progress">
-                                <span>{{ "%.1f"|format(check.risk_score) }}%</span>
+                                <span>{{ "%.1f"|format(check.risk_score) }}/100</span>
                                 <div class="risk-progress-bar">
                                     <div class="risk-progress-fill" style="width: {{ check.risk_score }}%; background: {% if check.risk_score < 30 %}var(--accent){% elif check.risk_score < 60 %}var(--warning){% elif check.risk_score < 80 %}#ff6b81{% else %}var(--danger){% endif %};"></div>
                                 </div>
